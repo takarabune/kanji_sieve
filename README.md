@@ -17,7 +17,7 @@ You will be asked which dictionary to use for the links.
 - [Eijiro](https://eow.alc.co.jp), an English to Japanese resource some of which is behind a paid subscription. 
 
 
-The text is broken down by TinySegmenter. The lexical units can tend to be word fragments like verb stems which can affect the searches.  
+The text is broken down by [TinySegmenter](https://github.com/SamuraiT/tinysegmenter). The lexical units can tend to be word fragments like verb stems which can affect the searches.  
 
 First a 'Core 6k' vocabulary list is searched. Anything not found is searched for in a custom list, and anything not found there is searched for in JMdict. Only the first result is returned in JMdict, and this might not be the most common. Any words left over are then listed.  
 These and any strange returns from JMdict can then be manually researched and entered into the custom list for future searches, or for a secnd pass. Alternatively they can be added to ``data/omit.csv`` This file is a list of words (one word per line) to omit from searches; ideally because they are already very familiar. 
