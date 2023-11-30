@@ -39,10 +39,7 @@ A utility script to add entries to the sqlite file ``sieve.db``
 A utility script to remove furigana from ocr output. It works on text where the line structure is kept and the furigana appear between lines of text. The ouput will still need to be proofread and very short line lengths like 16 character newsprint columns may cause some errors. It tries to preserve paragraph returns while stripping line returns. 
 
 #### generate_glossary
-Similar to Kanji Sieve but only outputs a glossary. Input needs to be a list of words, kana or kanji, on seperate lines. If given a csv file it will read the first column and ignore any others. It uses the same data resources as Kanji Sieve, it doesn't require tinysegmenter. 
+Similar to Kanji Sieve but only outputs a glossary from an already ordered list. Input needs to be a list of words, kana or kanji, on seperate lines rather than a text file. If given a csv file it will read the first column and ignore any others. It uses the same data resources as Kanji Sieve, it doesn't require tinysegmenter.
 
-**cmn_weblio_list**
-Outputs a glossary from the index of CMN. which is formatted as 'kana,[kanji],chapter' see [Japanese Resources](https://github.com/takarabune/japanese-resources)
-
-notes: 
+_notes: _
 
