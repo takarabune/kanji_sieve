@@ -1,4 +1,4 @@
-### Kanji Sieve v1.09
+### Kanji Sieve v1.11
 
 A simple script for Pythonista 3 that takes a Japanese text and outputs a markdown file giving a basic analysis of its kanji and a glossary of kanji based vocabulary with links to a dictionary resource. 
 
