@@ -1,5 +1,5 @@
 # -----------------------------------------#
-#   Make Glossary 1.01
+#   Generate Glossary 1.01
 #   2023-11-26
 #   (c)Robert Belton BSD 3-Clause License
 #
