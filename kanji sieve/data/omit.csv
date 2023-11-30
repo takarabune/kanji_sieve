@@ -1,0 +1,3 @@
+//this file contains words to omit from searches in kanji sieve.
+//one word per line.
+//a double slash will comment out the line. 
