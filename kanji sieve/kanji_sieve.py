@@ -29,8 +29,11 @@ import time
 import sqlite3
 import os
 import csv
+import zipfile
 from pathlib import Path
 
+# constants
+VERSION = "1.01"
 
 # decoration snippets
 _line_ = "\n----------------\n"
@@ -117,6 +120,20 @@ k6 = """異 遺 域 宇 映 延 沿 我 灰 拡 革 閣 割 株 干 巻 看 簡 
 
 
 def main():
+    
+    # first run unzip jmdict
+    if (os.path.isfile('data/jmdict.zip') is True
+        and os.path.isfile('data/jmdict.db') is False):
+        try:
+            with zipfile.ZipFile('data/jmdict.zip', 'r') as zip:
+                zip.extractall('data/')
+                # cleanup
+                if os.path.isfile('data/jmdict.zip'):
+                    os.remove('data/jmdict.zip')
+                if os.path.isdir('data/__MACOSX'):
+                    os.remove('data/__MACOSX')
+        except:
+            pass
 
     # select file to sieve
     filepath = dialogs.pick_document(
@@ -511,7 +528,7 @@ __remaining words:__  {len(jm_remaining_words)}  \n
 {_line_}
 {orphan}  \n
 {_line2_}
-_generated with [Kanji Sieve v1.09](https://github.com/takarabune/kanji_sieve)_
+_generated with [Kanji Sieve {VERSION}](https://github.com/takarabune/kanji_sieve)_
     ''')
 
     # save output #
@@ -519,11 +536,11 @@ _generated with [Kanji Sieve v1.09](https://github.com/takarabune/kanji_sieve)_
     newfile = Path(newdir)
     if not newfile.is_dir():
         os.mkdir(newdir)
-    newname = Path(filepath).stem + "_" + choice + "_s.md"
+    newname = Path(filepath).stem + "_" + choice + "_笊.md"
     newpath = "kanji sieve output/" + newname
     newfile = Path(newdir + newname)
     newpath = add_unique_postfix(newfile)
-    newtext = (Path(filepath).stem
+    newtext = ("### " + Path(filepath).stem
                + "  \n_" + time.ctime()
                + "_  \n\n" + sieved_text)
     newfile = open(newpath, "w", encoding="utf-8")
@@ -546,7 +563,7 @@ _generated with [Kanji Sieve v1.09](https://github.com/takarabune/kanji_sieve)_
 
     # append to orphans file
     newfile = open("kanji sieve output/orphans.md", "a", encoding="utf-8")
-    newfile.write("\n\n" + newname + "  \n" + time.ctime() + "  \n" + orphan)
+    newfile.write("\n\n" + Path(filepath).stem + "  \n" + time.ctime() + "  \n" + orphan)
     newfile.close()
 
     print("saved \n")
