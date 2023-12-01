@@ -33,7 +33,7 @@ import zipfile
 from pathlib import Path
 
 # constants
-VERSION = "1.01"
+VERSION = "1.11"
 
 # decoration snippets
 _line_ = "\n----------------\n"
