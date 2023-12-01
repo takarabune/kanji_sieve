@@ -23,7 +23,7 @@ The text is broken down by [TinySegmenter](https://github.com/SamuraiT/tinysegme
 First a 'Core 6k' vocabulary list is searched. Anything not found is searched for in a custom list, and anything not found there is searched for in JMdict. Only the first result is returned in JMdict, and this might not be the most common. Any words left over are then listed.  
 These and any strange returns from JMdict can then be researched and manually entered into the custom list ``sieve.db`` for future searches, or for a second pass. Alternatively they can be added to ``data/omit.csv`` This file is a list of words (one word per line) to omit from searches; ideally because they are already very familiar. 
 
-The output will appear in the console. A markdown file will also be generated, along with a tsv file of found words from the glossary,and a file listing the words not found. 
+The output will appear in the console. A markdown file will also be generated, along with a tsv file of found words from the glossary, and a file listing the words not found. 
 The whole process takes just a few seconds for a page of text. (800 to 1000 characters and approx 120 words to search)
 
 The output is saved to the same directory as the script. The script needs to be in the same directory as a folder named data containing the 3x sqlite dictionary files. Previous output won't be overwritten. The ``orphans.md`` file acts as a log and is written to each time the script is run. If deleted a new file will start on the next run. 
