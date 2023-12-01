@@ -14,7 +14,7 @@ You will be asked which dictionary to use for the links.
 - [Weblio](https://ejje.weblio.jp/content/笊), an online multi dictionary resource. 
 - [Reikoku](https://apps.apple.com/app/%E4%BE%8B%E8%A7%A3%E5%AD%A6%E7%BF%92%E5%9B%BD%E8%AA%9E%E8%BE%9E%E5%85%B8-%E7%AC%AC%E4%B9%9D%E7%89%88-%E6%BC%A2%E6%A4%9C%E9%81%8E%E5%8E%BB%E5%95%8F%E3%83%89%E3%83%AA%E3%83%AB/id615900736), a children's dictionary app from Monokakido.
 - [Jisho.org](https://jisho.org/search/笊), which will give similar results to the generated list, and
-- [Eijiro](https://eow.alc.co.jp/search?q=ざる), an English to Japanese resource some of which is behind a paid subscription.
+- [Eijiro](https://eow.alc.co.jp/search?q=ざる), an English to Japanese resource some of which is behind a paid subscription and annoying ads.
 - [Wiktionary](https://en.wiktionary.org/wiki/笊#Japanese), wikipedia's dictionary project. The english branch. 
 
 
