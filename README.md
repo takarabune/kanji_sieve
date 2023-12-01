@@ -42,4 +42,4 @@ A utility script to remove furigana from ocr output. It works on text where the 
 Similar to Kanji Sieve but only outputs a glossary from an already ordered list. Input needs to be a list of words, kana or kanji, on seperate lines rather than a text file. If given a csv file it will read the first column and ignore any others. It uses the same data resources as Kanji Sieve, it doesn't require tinysegmenter.
 
 __notes:__
-
+**DO NOT COPY PASTE JAPANESE IN PYTHONISTA'S EDITOR**  espically if you intend to key / search for that text. There is [a bug that substitutes characters on paste](https://github.com/omz/Pythonista-Issues/issues/722).
