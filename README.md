@@ -1,4 +1,4 @@
-### Kanji Sieve v1.11
+### Kanji Sieve v1.12
 
 A simple script for Pythonista 3 that takes a Japanese text and outputs a markdown file giving a basic analysis of its kanji and a glossary of kanji based vocabulary with links to a dictionary resource. 
 
@@ -18,7 +18,7 @@ You will be asked which dictionary to use for the links.
 - [Wiktionary](https://en.wiktionary.org/wiki/笊#Japanese), wikipedia's dictionary project. The english branch. 
 
 
-The text is broken down by [TinySegmenter](https://github.com/SamuraiT/tinysegmenter). The lexical units can tend to be word fragments, like verb stems, which can affect the searches.  Because of this there is a chance to edit the terms searched for. 
+The text is broken down by [TinySegmenter](https://github.com/SamuraiT/tinysegmenter). The lexical units can tend to be word fragments, like verb stems, which can affect the searches.  Because of this there is a chance to edit the terms searched for, and there is a user compiled substitutions file ``data/sub.csv`` which has pairs of words to substitute. 
 
 First a 'Core 6k' vocabulary list is searched. Anything not found is searched for in a custom list, and anything not found there is searched for in JMdict. Only the first result is returned in JMdict, and this might not be the most common. Any words left over are then listed.  
 These and any strange returns from JMdict can then be researched and manually entered into the custom list ``sieve.db`` for future searches, or for a second pass. Alternatively they can be added to ``data/omit.csv`` This file is a list of words (one word per line) to omit from searches; ideally because they are already very familiar. 
