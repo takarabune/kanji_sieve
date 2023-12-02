@@ -1,1 +1,5 @@
-v1.10    2023 Dec 1  -  Initial public release
+v1.12    2023 Dec 2   -  Substitution file 'sub.csv' added
+                         'Remaining words' corrected
+
+-------------------------------------------------- 
+v1.11    2023 Dec 1   -  Initial public release
