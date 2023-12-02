@@ -1,4 +1,5 @@
 v1.12.1  2023 Dec 2   -  Substitution corrected
+                         refactored remove duplicates
 -------------------------------------------------- 
 v1.12    2023 Dec 2   -  Substitution file 'sub.csv' added
                          'Remaining words' corrected
