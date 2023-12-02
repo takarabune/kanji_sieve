@@ -241,9 +241,10 @@ def main():
         subdict = {str(row[0]):str(row[1]) for row in input}
     # substitute values in kanji_word_list
     sublist =  [subdict.get(item,item) for item in kanji_word_list]
+    sublist = list(dict.fromkeys(sublist))
     try: sublist.remove("x")
     except: pass
-    kanji_word_list = set(sublist)
+    kanji_word_list = sublist
 
     kanji_word_list = user_editlist(kanji_word_list, "Edit kanji list")
 
@@ -265,9 +266,10 @@ def main():
     kana_word_list.sort()
     # substitute values in kana_word_list
     sublist =  [subdict.get(item, item) for item in kana_word_list]
+    sublist = list(dict.fromkeys(sublist))
     try: sublist.remove("x")
     except: pass
-    kana_word_list = set(sublist)
+    kana_word_list = sublist
 
     kana_word_list = user_editlist(kana_word_list, "Edit kana list")
 
