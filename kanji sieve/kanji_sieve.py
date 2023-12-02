@@ -1,6 +1,6 @@
 # -----------------------------------------#
-#   Kanji Sieve 1.11 for Pythonista 3
-#   2023-12-01
+#   Kanji Sieve 1.12 for Pythonista 3
+#   2023-12-02
 #   (c)Robert Belton BSD 3-Clause License
 #
 #   Takes a text, extracts the kanji &
@@ -15,6 +15,7 @@
 #      data/sieve.db
 #      data/jmdict.db
 #      data/omit.csv
+#      data/sub.csv
 #
 #   dependencies:
 #      tinysegmenter
@@ -33,7 +34,7 @@ import zipfile
 from pathlib import Path
 
 # constants
-VERSION = "1.11"
+VERSION = "1.12"
 
 # decoration snippets
 _line_ = "\n----------------\n"
@@ -120,7 +121,7 @@ k6 = """異 遺 域 宇 映 延 沿 我 灰 拡 革 閣 割 株 干 巻 看 簡 
 
 
 def main():
-    
+
     # first run unzip jmdict
     if (os.path.isfile('data/jmdict.zip') is True
         and os.path.isfile('data/jmdict.db') is False):
@@ -202,7 +203,7 @@ def main():
             "OK", hide_cancel_button=True)
         print("user cancelled")
         sys.exit("user cancelled")
-        
+
     url_scheme_postfix = ""
 
     if choice == "weblio":
@@ -233,8 +234,18 @@ def main():
 
     kanji_word_list = list(set(kanji_word_list))
     kanji_word_list.sort()
+    # build dictionary from sub.csv
+    # fragile ?
+    with open("data/sub.csv", encoding='utf-8', newline='\n') as csvtext:
+        input = csv.reader(csvtext)
+        subdict = {str(row[0]):str(row[1]) for row in input}
+    # substitute values in kanji_word_list
+    sublist =  [subdict.get(item,item) for item in kanji_word_list]
+    try: sublist.remove("x")
+    except: pass
+    kanji_word_list = set(sublist)
+
     kanji_word_list = user_editlist(kanji_word_list, "Edit kanji list")
-    kanji_word_listp = ", ".join(map(str, kanji_word_list))  # pretty
 
     # filter for kana words
 
@@ -252,12 +263,18 @@ def main():
             kana_word_list += [x]
     kana_word_list = list(set(kana_word_list))
     kana_word_list.sort()
+    # substitute values in kana_word_list
+    sublist =  [subdict.get(item, item) for item in kana_word_list]
+    try: sublist.remove("x")
+    except: pass
+    kana_word_list = set(sublist)
+
     kana_word_list = user_editlist(kana_word_list, "Edit kana list")
-    kana_word_listp = ", ".join(map(str, kana_word_list))  # pretty
 
     # note : change variable name ?
     kanji_word_list += kana_word_list
-    kanji_word_listp = kanji_word_listp + ", " + kana_word_listp
+
+    kanji_word_listp = ", ".join(map(str, kanji_word_list))  # pretty
 
     # omit list
     # fragile ?
@@ -269,7 +286,6 @@ def main():
             if re.search(r"//", str(row)) is None:
                 try: omitwordlist.append(row[0])
                 except: pass  # ignore index out of range for blank lines
-        print(omitwordlist)
         omitted_words = list(
             set(omitwordlist).intersection(set(kanji_word_list)))
         kanji_word_list = list(
@@ -318,7 +334,7 @@ def main():
             (target,),).fetchone()
         if definition is not None:
             sieve_output += ("[" + str(definition[0]) + "]"
-                             + "(" + url_scheme + str(definition[0]) 
+                             + "(" + url_scheme + str(definition[0])
                              + url_scheme_postfix + ") :"
                              + "【" + str(definition[1]) + "】,"
                              + " (" + str(definition[2]) + "), "
@@ -416,7 +432,7 @@ def main():
 
     sieve_remaining_wordsp = str(sieve_remaining_words).replace(
         "[", "").replace("'", "").replace("]", "")
-    jm_remaining_wordsp = str(remaining_words).replace("[", "").replace(
+    remaining_wordsp = str(remaining_words).replace("[", "").replace(
         "'", "").replace("]", "")
     core_remaining_wordsp = str(core_remaining_words).replace("[", "").replace(
         "'", "").replace("]", "")
@@ -468,8 +484,8 @@ def main():
     print(_line_)
     print("jmdict:  \n")
     print(jmdict_output)
-    print("remaining:", len(jm_remaining_words), "\n")
-    print(jm_remaining_wordsp)
+    print("remaining:", len(remaining_words), "\n")
+    print(remaining_wordsp)
     print(_line_)
     print(orphan)
     print("\n\nSaving to file ... \n\n")
@@ -523,8 +539,8 @@ __remaining words:__ {len(sieve_remaining_words)}  \n
 {_line_}
 __jmdict list:__  \n
 {jmdict_output} \n
-__remaining words:__  {len(jm_remaining_words)}  \n
-{jm_remaining_wordsp}  \n
+__remaining words:__  {len(remaining_words)}  \n
+{remaining_wordsp}  \n
 {_line_}
 {orphan}  \n
 {_line2_}
@@ -563,7 +579,14 @@ _generated with [Kanji Sieve {VERSION}](https://github.com/takarabune/kanji_siev
 
     # append to orphans file
     newfile = open("kanji sieve output/orphans.md", "a", encoding="utf-8")
-    newfile.write("\n\n" + Path(filepath).stem + "  \n" + time.ctime() + "  \n" + orphan)
+    newfile.write("\n\n" + Path(filepath).stem + "  \n"
+                 + time.ctime() + "  \n" + orphan)
+    newfile.close()
+
+    # prepare substitute list from orphans.
+    newfile = open("kanji sieve output/" + Path(filepath).stem
+                 + "_orphans.csv", "w", encoding="utf-8")
+    newfile.write("\n".join(map(str, remaining_words)))
     newfile.close()
 
     print("saved \n")
