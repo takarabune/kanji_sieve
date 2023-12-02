@@ -241,7 +241,7 @@ def main():
         subdict = {str(row[0]):str(row[1]) for row in input}
     # substitute values in kanji_word_list
     sublist =  [subdict.get(item,item) for item in kanji_word_list]
-    sublist = list(dict.fromkeys(sublist))
+    sublist = set(sublist)
     try: sublist.remove("x")
     except: pass
     kanji_word_list = sublist
@@ -266,7 +266,7 @@ def main():
     kana_word_list.sort()
     # substitute values in kana_word_list
     sublist =  [subdict.get(item, item) for item in kana_word_list]
-    sublist = list(dict.fromkeys(sublist))
+    sublist = set(sublist)
     try: sublist.remove("x")
     except: pass
     kana_word_list = sublist
