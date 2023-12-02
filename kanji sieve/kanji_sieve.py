@@ -1,5 +1,5 @@
 # -----------------------------------------#
-#   Kanji Sieve 1.12 for Pythonista 3
+#   Kanji Sieve 1.12.1 for Pythonista 3
 #   2023-12-02
 #   (c)Robert Belton BSD 3-Clause License
 #
@@ -34,7 +34,7 @@ import zipfile
 from pathlib import Path
 
 # constants
-VERSION = "1.12"
+VERSION = "1.12.1"
 
 # decoration snippets
 _line_ = "\n----------------\n"
