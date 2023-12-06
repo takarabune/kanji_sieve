@@ -1,6 +1,6 @@
 # -----------------------------------------#
-#   Kanji Sieve 1.12.1 for Pythonista 3
-#   2023-12-02
+#   Kanji Sieve 1.13 for Pythonista 3
+#   2023-12-06
 #   (c)Robert Belton BSD 3-Clause License
 #
 #   Takes a text, extracts the kanji &
@@ -11,9 +11,7 @@
 #   Flashcard Deluxe
 #
 #   requires:
-#      data/core.db
-#      data/sieve.db
-#      data/jmdict.db
+#      data/dict.db
 #      data/omit.csv
 #      data/sub.csv
 #
@@ -34,7 +32,7 @@ import zipfile
 from pathlib import Path
 
 # constants
-VERSION = "1.12.1"
+VERSION = "1.13"
 
 # decoration snippets
 _line_ = "\n----------------\n"
@@ -42,33 +40,6 @@ _line2_ = ""
 
 kanji = r'[㐀-䶵一-鿋豈-頻]'
 ascii_char = r'[ -~]'
-
-
-def user_editlist(ulist, alert_text):
-    # manually edit word_list to improve search
-    # ****Fragile due to user****
-    ulist2 = ulist
-    ulist = "\n".join(map(str, ulist))
-
-    ulist = (dialogs.text_dialog(
-        title=alert_text, text=str(ulist),
-        font=("Inconsolata", 16),
-        done_button_title='Commit'))
-
-    if ulist is None:
-        print("user cancelled edit; continuing...")
-        return ulist2
-
-    if ulist == '':
-        print("list cannot be empty; continuing")
-        ulist3 = user_editlist(ulist2, "⚠️ list cannot be empty!")
-        return ulist3
-
-    ulist = (re.sub(r"\n\n+", "\n", ulist)).strip()
-    ulist = ulist.split("\n")
-
-    return ulist
-
 
 def add_unique_postfix(fn):
     if not os.path.exists(fn):
@@ -122,15 +93,15 @@ k6 = """異 遺 域 宇 映 延 沿 我 灰 拡 革 閣 割 株 干 巻 看 簡 
 
 def main():
 
-    # first run unzip jmdict
-    if (os.path.isfile('data/jmdict.zip') is True
-        and os.path.isfile('data/jmdict.db') is False):
+    # first run unzip dict.db
+    if (os.path.isfile('data/dict.zip') is True
+        and os.path.isfile('data/dict.db') is False):
         try:
-            with zipfile.ZipFile('data/jmdict.zip', 'r') as zip:
+            with zipfile.ZipFile('data/dict.zip', 'r') as zip:
                 zip.extractall('data/')
                 # cleanup
-                if os.path.isfile('data/jmdict.zip'):
-                    os.remove('data/jmdict.zip')
+                if os.path.isfile('data/dict.zip'):
+                    os.remove('data/dict.zip')
                 if os.path.isdir('data/__MACOSX'):
                     os.remove('data/__MACOSX')
         except:
@@ -218,7 +189,7 @@ def main():
         url_scheme = "https://en.m.wiktionary.org/wiki/"
         url_scheme_postfix = "#Japanese"
 
-    print(choice + " chosen ...")
+    print(choice + " dictionary chosen for links...")
 
     # word list --  segment text then discard all but kanji groups #
     segmenter = tinysegmenter.TinySegmenter()
@@ -244,12 +215,9 @@ def main():
     sublist = set(sublist)
     try: sublist.remove("x")
     except: pass
-    kanji_word_list = sublist
-
-    kanji_word_list = user_editlist(kanji_word_list, "Edit kanji list")
+    kanji_word_list = list(sublist)
 
     # filter for kana words
-
     # filter segments beginning or ending with ッ or っ as non-words
     temp_word_list = []
     for x in word_list:
@@ -269,9 +237,7 @@ def main():
     sublist = set(sublist)
     try: sublist.remove("x")
     except: pass
-    kana_word_list = sublist
-
-    kana_word_list = user_editlist(kana_word_list, "Edit kana list")
+    kana_word_list = list(sublist)
 
     # note : change variable name ?
     kanji_word_list += kana_word_list
@@ -296,7 +262,7 @@ def main():
 
     # search corelist
     print("searching corelist...")
-    connection = sqlite3.connect("data/core.db")
+    connection = sqlite3.connect("data/dict.db")  
     cursor = connection.cursor()
     core_output = ""
     flashcards = ""
@@ -304,8 +270,8 @@ def main():
 
     for target in kanji_word_list:
         definition = cursor.execute(
-            """SELECT main.kanji, main.kana, main.pos, main.eng
-               FROM main WHERE main.kanji = ? """,
+            """SELECT core.kanji, core.kana, core.pos, core.eng
+               FROM core WHERE core.kanji = ? """,
             (target,), ).fetchone()
         if definition is not None:
             core_output += ("[" + str(definition[0]) + "]"
@@ -319,20 +285,17 @@ def main():
         else:
             core_remaining_words += [target]
 
-    connection.commit()
-    connection.close()
-
-    # search sieve list
+    # search user table
     print("searching sieve list...")
-    connection = sqlite3.connect("data/sieve.db")
-    cursor = connection.cursor()
+    #connection = sqlite3.connect("data/dict.db")
+    #cursor = connection.cursor()
     sieve_output = ""
     sieve_remaining_words = []
     # search for kanji & kana
     for target in core_remaining_words:
         definition = cursor.execute(
-            """SELECT main.kanji, main.kana, main.pos, main.eng, main.jp
-               FROM main WHERE main.kanji = ? """,
+            """SELECT user.kanji, user.kana, user.pos, user.eng, user.jp
+               FROM user WHERE user.kanji = ? """,
             (target,),).fetchone()
         if definition is not None:
             sieve_output += ("[" + str(definition[0]) + "]"
@@ -347,13 +310,8 @@ def main():
         else:
             sieve_remaining_words += [target]
 
-    connection.commit()
-    connection.close()
-
     # search jmdict
     print("searching jmdict for kanji...")
-    connection = sqlite3.connect("data/jmdict.db")
-    cursor = connection.cursor()
 
     # search for kanji and katakana
     jmdict_output = ""
@@ -479,7 +437,7 @@ def main():
     print("remaining:", len(core_remaining_words), "\n")
     print(core_remaining_wordsp)
     print(_line_)
-    print("sieve list:  \n")
+    print("user list:  \n")
     print(sieve_output)
     print("remaining:", len(sieve_remaining_words), "\n")
     print(sieve_remaining_wordsp)
@@ -534,7 +492,7 @@ __Core 6k list:__  \n\n
 __remaining words:__ {len(core_remaining_words)}  \n
 {core_remaining_wordsp}
 {_line_}
-__sieve list:__  \n
+__user list:__  \n
 {sieve_output} \n
 __remaining words:__ {len(sieve_remaining_words)}  \n
 {sieve_remaining_wordsp}
@@ -586,10 +544,11 @@ _generated with [Kanji Sieve {VERSION}](https://github.com/takarabune/kanji_siev
     newfile.close()
 
     # prepare substitute list from orphans.
-    newfile = open("kanji sieve output/" + Path(filepath).stem
-                 + "_orphans.csv", "w", encoding="utf-8")
-    newfile.write("\n".join(map(str, remaining_words)))
-    newfile.close()
+    if len(remaining_words) > 0:
+        newfile = open("kanji sieve output/" + Path(filepath).stem
+                     + "_orphans.csv", "w", encoding="utf-8")
+        newfile.write("\n".join(map(str, remaining_words)))
+        newfile.close()
 
     print("saved \n")
 
