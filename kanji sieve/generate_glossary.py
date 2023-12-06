@@ -1,5 +1,5 @@
 # -----------------------------------------#
-#   Glossary 1.2
+#   Generate Glossary 1.2
 #   2023-12-06
 #   (c)Robert Belton BSD 3-Clause License
 #
