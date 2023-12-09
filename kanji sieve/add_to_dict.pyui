@@ -1,0 +1,731 @@
+[
+  {
+    "nodes" : [
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{15, 246}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "font_size" : 17,
+          "corner_radius" : 0,
+          "frame" : "{{255, 148}, {200, 32}}",
+          "border_width" : 0,
+          "alignment" : "left",
+          "autocorrection_type" : "no",
+          "text_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+          "font_name" : "<System>",
+          "spellchecking_type" : "no",
+          "class" : "TextField",
+          "name" : "kanji6",
+          "flex" : "RB"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{159, 46}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "font_name" : "<System>",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "name" : "kana1",
+          "font_size" : 17
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{303, 46}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "font_name" : "<System>",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "name" : "eng1",
+          "font_size" : 17
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{447, 46}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "font_name" : "<System>",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "name" : "pos1",
+          "font_size" : 17
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{591, 46}, {147, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "WB",
+          "font_name" : "<System>",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "name" : "jpn1",
+          "font_size" : 17
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{15, 46}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "font_size" : 17,
+          "corner_radius" : 0,
+          "frame" : "{{255, 148}, {200, 32}}",
+          "border_width" : 0,
+          "custom_attributes" : "",
+          "alignment" : "left",
+          "autocorrection_type" : "no",
+          "text_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+          "font_name" : "<System>",
+          "spellchecking_type" : "no",
+          "class" : "TextField",
+          "name" : "kanji1",
+          "flex" : "RB"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{15, 86}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "flex" : "RB",
+          "corner_radius" : 0,
+          "frame" : "{{255, 148}, {200, 32}}",
+          "border_width" : 0,
+          "alignment" : "left",
+          "autocorrection_type" : "no",
+          "text_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+          "font_name" : "<System>",
+          "spellchecking_type" : "no",
+          "class" : "TextField",
+          "name" : "kanji2",
+          "font_size" : 17
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{15, 126}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "font_size" : 17,
+          "corner_radius" : 0,
+          "frame" : "{{255, 148}, {200, 32}}",
+          "border_width" : 0,
+          "alignment" : "left",
+          "autocorrection_type" : "no",
+          "text_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+          "font_name" : "<System>",
+          "spellchecking_type" : "no",
+          "class" : "TextField",
+          "name" : "kanji3",
+          "flex" : "RB"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{15, 166}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "font_size" : 17,
+          "corner_radius" : 0,
+          "frame" : "{{255, 148}, {200, 32}}",
+          "border_width" : 0,
+          "alignment" : "left",
+          "autocorrection_type" : "no",
+          "text_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+          "font_name" : "<System>",
+          "spellchecking_type" : "no",
+          "class" : "TextField",
+          "name" : "kanji4",
+          "flex" : "RB"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{15, 206}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "font_size" : 17,
+          "corner_radius" : 0,
+          "frame" : "{{255, 148}, {200, 32}}",
+          "border_width" : 0,
+          "alignment" : "left",
+          "autocorrection_type" : "no",
+          "text_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+          "font_name" : "<System>",
+          "spellchecking_type" : "no",
+          "class" : "TextField",
+          "name" : "kanji5",
+          "flex" : "RB"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{15, 6}, {136, 32}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "RB",
+          "name" : "label1",
+          "frame" : "{{295, 148}, {150, 32}}",
+          "uuid" : "E4CBC2B4-C71F-493B-88A3-199DAC03EA8A",
+          "class" : "Label",
+          "alignment" : "center",
+          "text" : "Term",
+          "font_size" : 18,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{159, 6}, {136, 32}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "RB",
+          "font_name" : "<System>",
+          "frame" : "{{295, 148}, {150, 32}}",
+          "uuid" : "E4CBC2B4-C71F-493B-88A3-199DAC03EA8A",
+          "class" : "Label",
+          "alignment" : "center",
+          "text" : "Reading",
+          "name" : "label1",
+          "font_size" : 18
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{303, 6}, {136, 32}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "RB",
+          "font_size" : 18,
+          "frame" : "{{295, 148}, {150, 32}}",
+          "uuid" : "E4CBC2B4-C71F-493B-88A3-199DAC03EA8A",
+          "class" : "Label",
+          "alignment" : "center",
+          "text" : "Translation ",
+          "name" : "label1",
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{447, 6}, {136, 32}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "RB",
+          "font_name" : "<System>",
+          "frame" : "{{295, 148}, {150, 32}}",
+          "uuid" : "E4CBC2B4-C71F-493B-88A3-199DAC03EA8A",
+          "class" : "Label",
+          "alignment" : "center",
+          "text" : "pos",
+          "font_size" : 18,
+          "name" : "label1"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{591, 6}, {147, 32}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "WB",
+          "name" : "label1",
+          "frame" : "{{295, 148}, {150, 32}}",
+          "uuid" : "E4CBC2B4-C71F-493B-88A3-199DAC03EA8A",
+          "class" : "Label",
+          "alignment" : "center",
+          "text" : "Japanese",
+          "font_size" : 18,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{159, 86}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "font_size" : 17,
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "name" : "kana2",
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{159, 126}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "font_name" : "<System>",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "font_size" : 17,
+          "name" : "kana3"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{159, 166}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "name" : "kana4",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "font_size" : 17,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{159, 206}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "name" : "kana5",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "font_size" : 17,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{159, 246}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "name" : "kana6",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "font_size" : 17,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{303, 86}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "name" : "eng2",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "font_size" : 17,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{303, 126}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "name" : "eng3",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "font_size" : 17,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{303, 166}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "name" : "eng4",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "font_size" : 17,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{303, 206}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "name" : "eng5",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "font_size" : 17,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{303, 246}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "name" : "eng6",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "font_size" : 17,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{447, 86}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "name" : "pos2",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "font_size" : 17,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{447, 126}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "name" : "pos3",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "font_size" : 17,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{447, 166}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "name" : "pos4",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "font_size" : 17,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{447, 206}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "name" : "pos5",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "font_size" : 17,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{447, 246}, {136, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "RB",
+          "name" : "pos6",
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "font_size" : 17,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{591, 86}, {147, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "WB",
+          "font_size" : 17,
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "name" : "jpn2",
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{591, 126}, {147, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "WB",
+          "font_size" : 17,
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "name" : "jpn3",
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{591, 166}, {147, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "WB",
+          "font_size" : 17,
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "name" : "jpn4",
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{591, 206}, {147, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "WB",
+          "font_size" : 17,
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "name" : "jpn5",
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{591, 246}, {147, 32}}",
+        "class" : "TextField",
+        "attributes" : {
+          "flex" : "WB",
+          "font_size" : 17,
+          "frame" : "{{255, 148}, {200, 32}}",
+          "spellchecking_type" : "default",
+          "class" : "TextField",
+          "uuid" : "BB89278B-EDB4-494A-B13A-67130290C1FF",
+          "alignment" : "left",
+          "autocorrection_type" : "default",
+          "name" : "jpn6",
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      }
+    ],
+    "frame" : "{{0, 0}, {751, 292}}",
+    "class" : "View",
+    "attributes" : {
+      "tint_color" : "RGBA(0.000000,0.478000,1.000000,1.000000)",
+      "enabled" : true,
+      "border_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+      "background_color" : "RGBA(0.924528,0.924528,0.924528,1.000000)",
+      "name" : "Dictionary Entry",
+      "flex" : ""
+    },
+    "selected" : false
+  }
+]
