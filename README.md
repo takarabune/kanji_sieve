@@ -33,7 +33,13 @@ The output is saved to the same directory as the script. The script needs to be 
 Although written for Pythonista, I see no reason why the iOS-only calls to dialogs and gui couldn't be rewritten for another platform.
 
 #### add_to_dict
-A utility script to add entries to the user table of the sqlite file ``dict.db``
+A utility script to add entries to the user table of the sqlite file ``dict.db``. It has a gui interface allowing 6 entries at a time to be made. 'Term', 'Reading', and 'Translation' are required fields. If any are empty that row will not be entered. 
+- 'Term' should be kanji, katakana, or hiragana. It is the item matched on a search.
+- 'Reading' should be hiragana only.
+- 'Translation' can be the language of your choice, often English.
+- 'pos' is part of speech. eg: n, adv, i-adj, phrase, v5, v1, etc.
+- 'Japanese' is a simple definition in Japanese using terms you know.
+Remember Garbage In, Garbage Out. Other than blank fields, nothing is checked for or enforced. 
 
 #### remove_furigana
 A utility script to remove furigana from ocr output. It works on text where the line structure is kept and the furigana appear between lines of text. The ouput will still need to be proofread and very short line lengths like 16 character newsprint columns may cause some errors. It tries to preserve paragraph returns while stripping line returns. 
