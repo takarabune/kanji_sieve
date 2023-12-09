@@ -1,7 +1,10 @@
 # -----------------------------------------#
-#   Kanji Sieve 1.13 for Pythonista 3
+#   Kanji Sieve 1.14 for Pythonista 3
 #   2023-12-06
 #   (c)Robert Belton BSD 3-Clause License
+#
+#   *due to prefs passed from 'kanji_sieve_gui.py'
+#   *this cannot run by itself
 #
 #   Takes a text, extracts the kanji &
 #   analyzes them by kyouiku level
@@ -11,6 +14,8 @@
 #   Flashcard Deluxe
 #
 #   requires:
+#      kanji_sieve_gui.py
+#      kanji_sieve_gui.pyui
 #      data/dict.db
 #      data/omit.csv
 #      data/sub.csv
@@ -32,7 +37,7 @@ import zipfile
 from pathlib import Path
 
 # constants
-VERSION = "1.13"
+VERSION = "1.14"
 
 # decoration snippets
 _line_ = "\n----------------\n"
@@ -91,7 +96,10 @@ k6 = """異 遺 域 宇 映 延 沿 我 灰 拡 革 閣 割 株 干 巻 看 簡 
  閉 片 補 暮 宝 訪 亡 忘 棒 枚 幕 密 盟 模 訳 郵 優 幼 欲 翌 乱 卵 覧 裏 律 臨 朗 論"""
 
 
-def main():
+def main(prefs_dict):
+    
+    prefs = prefs_dict
+    print("prefs:", prefs)
 
     # first run unzip dict.db
     if (os.path.isfile('data/dict.zip') is True
@@ -163,17 +171,8 @@ def main():
             tk0 = tk0 + [i]
 
     # choose a dictionary
-    choice = dialogs.list_dialog(
-        title='Choose a dictionary for links',
-        items=["reikoku", "weblio", "jisho", "eijiro", "wiktionary"],
-        multiple=False)
-    if choice is None:
-        dialogs.alert(
-            "⚠️ Alert",
-            "No dictionary selected, script cancelled.",
-            "OK", hide_cancel_button=True)
-        print("user cancelled")
-        sys.exit("user cancelled")
+
+    choice = prefs["dict"]
 
     url_scheme_postfix = ""
 
@@ -185,10 +184,12 @@ def main():
         url_scheme = "https://jisho.org/search/"
     elif choice == "reikoku":
         url_scheme = "mkreikoku:///search?text="
-    elif choice == "wiktionary":
+    elif choice == "wik-eng":
         url_scheme = "https://en.m.wiktionary.org/wiki/"
         url_scheme_postfix = "#Japanese"
-
+    elif choice == "wik-jpn":
+        url_scheme = "https://ja.m.wiktionary.org/wiki/"
+        
     print(choice + " dictionary chosen for links...")
 
     # word list --  segment text then discard all but kanji groups #
@@ -260,112 +261,124 @@ def main():
             set(kanji_word_list).difference(set(omitwordlist)))
         omitted_wordsp = ", ".join(map(str, omitted_words))  # pretty
 
-    # search corelist
-    print("searching corelist...")
     connection = sqlite3.connect("data/dict.db")  
     cursor = connection.cursor()
-    core_output = ""
+    
     flashcards = ""
-    core_remaining_words = []
-
-    for target in kanji_word_list:
-        definition = cursor.execute(
-            """SELECT core.kanji, core.kana, core.pos, core.eng
-               FROM core WHERE core.kanji = ? """,
-            (target,), ).fetchone()
-        if definition is not None:
-            core_output += ("[" + str(definition[0]) + "]"
-                            + "(" + url_scheme + str(definition[0])
-                            + url_scheme_postfix + ") : "
-                            + "【" + str(definition[1]) + "】,"
-                            + " (" + str(definition[2]) + "), "
-                            + str(definition[3]) + "  \n")
-            flashcards += (str(definition[0]) + "\t" + str(definition[1])
-                           + "\t" + str(definition[3]) + "\n")
-        else:
-            core_remaining_words += [target]
-
+    
+    # search corelist
+    if prefs["core"] == "1":
+        print("searching corelist...")
+        core_output = ""
+        core_remaining_words = []
+    
+        for target in kanji_word_list:
+            definition = cursor.execute(
+                """SELECT core.kanji, core.kana, core.pos, core.eng
+                   FROM core WHERE core.kanji = ? """,
+                (target,), ).fetchone()
+            if definition is not None:
+                core_output += ("[" + str(definition[0]) + "]"
+                                + "(" + url_scheme + str(definition[0])
+                                + url_scheme_postfix + ") : "
+                                + "【" + str(definition[1]) + "】,"
+                                + " (" + str(definition[2]) + "), "
+                                + str(definition[3]) + "  \n")
+                flashcards += (str(definition[0]) + "\t" + str(definition[1])
+                               + "\t" + str(definition[3]) + "\n")
+            else:
+                core_remaining_words += [target]
+    else:
+        core_remaining_words = kanji_word_list
+        
     # search user table
-    print("searching sieve list...")
-    #connection = sqlite3.connect("data/dict.db")
-    #cursor = connection.cursor()
-    sieve_output = ""
-    sieve_remaining_words = []
-    # search for kanji & kana
-    for target in core_remaining_words:
-        definition = cursor.execute(
-            """SELECT user.kanji, user.kana, user.pos, user.eng, user.jp
-               FROM user WHERE user.kanji = ? """,
-            (target,),).fetchone()
-        if definition is not None:
-            sieve_output += ("[" + str(definition[0]) + "]"
-                             + "(" + url_scheme + str(definition[0])
-                             + url_scheme_postfix + ") :"
-                             + "【" + str(definition[1]) + "】,"
-                             + " (" + str(definition[2]) + "), "
-                             + str(definition[3]) + ", "
-                             + str(definition[4]) + "  \n")
-            flashcards += (str(definition[0]) + "\t" + str(definition[1])
-                           + "\t" + str(definition[3]) + "\n")
-        else:
-            sieve_remaining_words += [target]
+    if prefs["user"] == "1":
+        print("searching user list...")
+        sieve_output = ""
+        sieve_remaining_words = []
+        # search for kanji & kana
+        for target in core_remaining_words:
+            definition = cursor.execute(
+                """SELECT user.kanji, user.kana, user.pos, user.eng, user.jp
+                   FROM user WHERE user.kanji = ? """,
+                (target,),).fetchone()
+            if definition is not None:
+                sieve_output += ("[" + str(definition[0]) + "]"
+                                 + "(" + url_scheme + str(definition[0])
+                                 + url_scheme_postfix + ") :"
+                                 + "【" + str(definition[1]) + "】,"
+                                 + " (" + str(definition[2]) + "), "
+                                 + str(definition[3]) + ", "
+                                 + str(definition[4]) + "  \n")
+                flashcards += (str(definition[0]) + "\t" + str(definition[1])
+                               + "\t" + str(definition[3]) + "\n")
+            else:
+                sieve_remaining_words += [target]
+    else:
+        sieve_remaining_words = core_remaining_words
 
     # search jmdict
-    print("searching jmdict for kanji...")
-
-    # search for kanji and katakana
-    jmdict_output = ""
-    jm_remaining_words = []
-    for target in sieve_remaining_words:
-        definition = cursor.execute(
-            """SELECT words_jp.kanji, words_jp.reading,
-                      words_jp.tags, words_en.def
-               FROM words_jp  INNER JOIN words_en ON words_jp.ID=words_en.JPID
-               WHERE words_jp.kanji = ? """,
-            (target,), ).fetchone()
-        if definition is not None:
-            jmdict_output += ("[" + str(definition[0]) + "]"
-                              + "(" + url_scheme + str(definition[0])
-                              + url_scheme_postfix + ") : "
-                              + "【" + str(definition[1]) + "】,"
-                              + " (" + str(definition[2]) + "), "
-                              + str(definition[3]) + "  \n")
-            flashcards += (str(definition[0]) + "\t" + str(definition[1])
-                           + "\t" + str(definition[3]) + "\n")
-        else:
-            jm_remaining_words += [target]
-
-    # search jmdict for kana only
-    print("searching jmdict for kana...")
-
-    sieve_remaining_kana = list(
-        set(jm_remaining_words).intersection(set(kana_word_list)))
-    jm_remaining_kanji = list(
-        set(jm_remaining_words).difference(set(kana_word_list)))
-    jm_remaining_kana = []
-    for target in sieve_remaining_kana:
-        definition = cursor.execute(
-            """SELECT words_jp.kanji, words_jp.reading,
-                      words_jp.tags, words_en.def
-               FROM words_jp  INNER JOIN words_en ON words_jp.ID=words_en.JPID
-               WHERE words_jp.reading = ? """,
-            (target,), ).fetchone()
-        if definition is not None:
-            jmdict_output += ("[" + str(definition[0]) + "]"
-                              + "(" + url_scheme + str(definition[0])
-                              + url_scheme_postfix + ") : "
-                              + "【" + str(definition[1]) + "】,"
-                              + " (" + str(definition[2]) + "), "
-                              + str(definition[3]) + "  \n")
-            flashcards += (str(definition[0]) + "\t" + str(definition[1])
-                           + "\t" + str(definition[3]) + "\n")
-        else:
-            jm_remaining_kana += [target]
+    if prefs["jmdict"] == "1":
+        print("searching jmdict for kanji...")
+        
+        # search for kanji and katakana
+        jmdict_output = ""
+        jm_remaining_words = []
+        for target in sieve_remaining_words:
+            definition = cursor.execute(
+                """SELECT words_jp.kanji, words_jp.reading,
+                          words_jp.tags, words_en.def
+                   FROM words_jp  INNER JOIN words_en ON words_jp.ID=words_en.JPID
+                   WHERE words_jp.kanji = ? """,
+                (target,), ).fetchone()
+            if definition is not None:
+                jmdict_output += ("[" + str(definition[0]) + "]"
+                                  + "(" + url_scheme + str(definition[0])
+                                  + url_scheme_postfix + ") : "
+                                  + "【" + str(definition[1]) + "】,"
+                                  + " (" + str(definition[2]) + "), "
+                                  + str(definition[3]) + "  \n")
+                flashcards += (str(definition[0]) + "\t" + str(definition[1])
+                               + "\t" + str(definition[3]) + "\n")
+            else:
+                jm_remaining_words += [target]
+    
+        # search jmdict for kana only
+        print("searching jmdict for kana...")
+        
+        sieve_remaining_kana = list(
+            set(jm_remaining_words).intersection(set(kana_word_list)))
+        jm_remaining_kanji = list(
+            set(jm_remaining_words).difference(set(kana_word_list)))
+        jm_remaining_kana = []
+        for target in sieve_remaining_kana:
+            definition = cursor.execute(
+                """SELECT words_jp.kanji, words_jp.reading,
+                          words_jp.tags, words_en.def
+                   FROM words_jp  INNER JOIN words_en ON words_jp.ID=words_en.JPID
+                   WHERE words_jp.reading = ? """,
+                (target,), ).fetchone()
+            if definition is not None:
+                jmdict_output += ("[" + str(definition[0]) + "]"
+                                  + "(" + url_scheme + str(definition[0])
+                                  + url_scheme_postfix + ") : "
+                                  + "【" + str(definition[1]) + "】,"
+                                  + " (" + str(definition[2]) + "), "
+                                  + str(definition[3]) + "  \n")
+                flashcards += (str(definition[0]) + "\t" + str(definition[1])
+                               + "\t" + str(definition[3]) + "\n")
+            else:
+                jm_remaining_kana += [target]
+    else:
+        jm_remaining_kana = []
+        jm_remaining_kanji = sieve_remaining_words
+        
 
     connection.commit()
     connection.close()
 
     remaining_words = jm_remaining_kana + jm_remaining_kanji
+    
     orphan = ""
     for word in remaining_words:
         orphan = (orphan + "[" + word + "]"
@@ -405,49 +418,54 @@ def main():
     print("discrete kanji in text:", len(kanji_count), "\n")
     print(kanji_countp)
     print(_line_)
-    print("    1年:", len(tk1))
-    print(tk1p)
-    print(_line_)
-    print("    2年:", len(tk2))
-    print(tk2p)
-    print(_line_)
-    print("    3年:", len(tk3))
-    print(tk3p)
-    print(_line_)
-    print("    4年:", len(tk4))
-    print(tk4p)
-    print(_line_)
-    print("    5年:", len(tk5))
-    print(tk5p)
-    print(_line_)
-    print("    6年:", len(tk6))
-    print(tk6p)
-    print(_line_)
-    print("   中学+:", len(tk0))
-    print(tk0p)
-    print(_line_)
+    if prefs["jyouyou"] == "1":
+        print("    1年:", len(tk1))
+        print(tk1p)
+        print(_line_)
+        print("    2年:", len(tk2))
+        print(tk2p)
+        print(_line_)
+        print("    3年:", len(tk3))
+        print(tk3p)
+        print(_line_)
+        print("    4年:", len(tk4))
+        print(tk4p)
+        print(_line_)
+        print("    5年:", len(tk5))
+        print(tk5p)
+        print(_line_)
+        print("    6年:", len(tk6))
+        print(tk6p)
+        print(_line_)
+        print("   中学+:", len(tk0))
+        print(tk0p)
+        print(_line_)
     print("words or word fragments searched in text:",
           len(kanji_word_list), "\n")
     print(kanji_word_listp, "\n")
     print("omitted from search:", len(omitted_words), "\n")
     print(omitted_wordsp)
     print(_line_)
-    print("core 6k list:  \n")
-    print(core_output)
-    print("remaining:", len(core_remaining_words), "\n")
-    print(core_remaining_wordsp)
-    print(_line_)
-    print("user list:  \n")
-    print(sieve_output)
-    print("remaining:", len(sieve_remaining_words), "\n")
-    print(sieve_remaining_wordsp)
-    print(_line_)
-    print("jmdict:  \n")
-    print(jmdict_output)
-    print("remaining:", len(remaining_words), "\n")
-    print(remaining_wordsp)
-    print(_line_)
-    print(orphan)
+    if prefs["core"] == "1":
+        print("core 6k list:  \n")
+        print(core_output)
+        print("remaining:", len(core_remaining_words), "\n")
+        print(core_remaining_wordsp)
+        print(_line_)
+    if prefs["user"] == "1":
+        print("user list:  \n")
+        print(sieve_output)
+        print("remaining:", len(sieve_remaining_words), "\n")
+        print(sieve_remaining_wordsp)
+        print(_line_)
+    if prefs["jmdict"] == "1":
+        print("jmdict:  \n")
+        print(jmdict_output)
+        print("remaining:", len(remaining_words), "\n")
+        print(remaining_wordsp)
+        print(_line_)
+    if prefs["orphan"] == "1":
+        print(orphan)
     print("\n\nSaving to file ... \n\n")
 
     # text for output #
@@ -458,7 +476,9 @@ __characters in text:__ {len(text)}
 __kanji in text:__ {len(text2)}  \n
 __discrete kanji in text:__ {len(kanji_count)} \n
 {kanji_countp}
-{_line_}
+{_line_}''')
+    if prefs["jyouyou"] == "1":
+        sieved_text += (f'''
 1.  __第一学年:__ {len(tk1)}  \n
 {tk1p}
 {_line2_}
@@ -479,31 +499,41 @@ __discrete kanji in text:__ {len(kanji_count)} \n
 {_line2_}
 7.  __中学以上:__ {len(tk0)}  \n
 {tk0p}
-{_line_}
+{_line_}''')
+    sieved_text += (f'''
 __words or word fragments searched in text:__ {len(kanji_word_list)} \n
 {kanji_word_listp} \n
 __omitted from search:__ {len(omitted_words)} \n
 {omitted_wordsp} \n
 {_line_}
 __Glossary:__  \n
-{_line2_}
-__Core 6k list:__  \n\n
+{_line2_}''')
+    if prefs["core"] == "1":
+        sieved_text += (f'''
+__Core 6k list:__  \n
 {core_output} \n
 __remaining words:__ {len(core_remaining_words)}  \n
 {core_remaining_wordsp}
-{_line_}
+{_line_}''')
+    if prefs["user"] == "1":
+        sieved_text += (f'''
 __user list:__  \n
 {sieve_output} \n
 __remaining words:__ {len(sieve_remaining_words)}  \n
 {sieve_remaining_wordsp}
-{_line_}
+{_line_}''')
+    if prefs["jmdict"] == "1":
+        sieved_text += (f'''
 __jmdict list:__  \n
 {jmdict_output} \n
 __remaining words:__  {len(remaining_words)}  \n
 {remaining_wordsp}  \n
-{_line_}
+{_line_}''')
+    if prefs["orphan"] == "1":
+        sieved_text += (f'''
 {orphan}  \n
-{_line2_}
+{_line2_}''')
+    sieved_text += (f'''
 _generated with [Kanji Sieve {VERSION}](https://github.com/takarabune/kanji_sieve)_
     ''')
 
@@ -524,18 +554,19 @@ _generated with [Kanji Sieve {VERSION}](https://github.com/takarabune/kanji_siev
     newfile.close()
 
     # save flashcards #
-    newdir = "flashcards output/"
-    newfile = Path(newdir)
-    if not newfile.is_dir():
-        os.mkdir(newdir)
-    newname = Path(filepath).stem + "_flashcards.tsv"
-    newpath = "flashcards output/" + newname
-    newfile = Path(newdir + newname)
-    newpath = add_unique_postfix(newfile)
-    newtext = flashcards
-    newfile = open(newpath, "w", encoding="utf-8")
-    newfile.write(newtext)
-    newfile.close()
+    if prefs["tsv_out"] == "1":
+        newdir = "flashcards output/"
+        newfile = Path(newdir)
+        if not newfile.is_dir():
+            os.mkdir(newdir)
+        newname = Path(filepath).stem + "_flashcards.tsv"
+        newpath = "flashcards output/" + newname
+        newfile = Path(newdir + newname)
+        newpath = add_unique_postfix(newfile)
+        newtext = flashcards
+        newfile = open(newpath, "w", encoding="utf-8")
+        newfile.write(newtext)
+        newfile.close()
 
     # append to orphans file
     newfile = open("kanji sieve output/orphans.md", "a", encoding="utf-8")
@@ -544,13 +575,15 @@ _generated with [Kanji Sieve {VERSION}](https://github.com/takarabune/kanji_siev
     newfile.close()
 
     # prepare substitute list from orphans.
-    if len(remaining_words) > 0:
-        newfile = open("kanji sieve output/" + Path(filepath).stem
-                     + "_orphans.csv", "w", encoding="utf-8")
-        newfile.write("\n".join(map(str, remaining_words)))
-        newfile.close()
+    if prefs["orphan_out"] == "1":
+        if len(remaining_words) > 0:
+            newfile = open("kanji sieve output/" + Path(filepath).stem
+                         + "_orphans.csv", "w", encoding="utf-8")
+            newfile.write("\n".join(map(str, remaining_words)))
+            newfile.close()
 
     print("saved \n")
+    dialogs.hud_alert("saved")
 
 
 if __name__ == '__main__':
