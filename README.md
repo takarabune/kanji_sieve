@@ -37,7 +37,7 @@ A utility script to add entries to the user table of the sqlite file ``dict.db``
 - 'Term' should be kanji, katakana, or hiragana. It is the item matched on a search.
 - 'Reading' should be hiragana only.
 - 'Translation' can be the language of your choice, often English.
-- 'pos' is part of speech. eg: n, adv, i-adj, phrase, v5, v1, etc.
+- 'pos' is part of speech. eg: n, adv, i-adj, phrase, v5, v1, etc. be consistant. 
 - 'Japanese' is a simple definition in Japanese using terms you know.
   
 Remember: Garbage In, Garbage Out. Other than blank fields, nothing is checked for or enforced. 
