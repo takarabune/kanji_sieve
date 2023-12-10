@@ -1,10 +1,8 @@
 # -----------------------------------------#
-#   Kanji Sieve 1.14 for Pythonista 3
-#   2023-12-06
+#   Kanji Sieve 1.15 for Pythonista 3
+#   2023-12-10
 #   (c)Robert Belton BSD 3-Clause License
 #
-#   *due to prefs passed from 'kanji_sieve_gui.py'
-#   *this cannot run by itself
 #
 #   Takes a text, extracts the kanji &
 #   analyzes them by kyouiku level
@@ -14,14 +12,15 @@
 #   Flashcard Deluxe
 #
 #   requires:
-#      kanji_sieve_gui.py
-#      kanji_sieve_gui.pyui
+#      kanji_sieve.pyui
+#      ks_MarkdownView.py
 #      data/dict.db
 #      data/omit.csv
 #      data/sub.csv
 #
 #   dependencies:
 #      tinysegmenter
+#      ks_MarkdownView
 #
 # -----------------------------------------#
 
@@ -29,15 +28,17 @@ import sys
 import tinysegmenter
 import re
 import dialogs  # pythonista only
+import ui  # pythonista only
 import time
 import sqlite3
 import os
 import csv
 import zipfile
+from ks_MarkdownView import *  # pythonista only
 from pathlib import Path
 
 # constants
-VERSION = "1.14"
+VERSION = "1.15"
 
 # decoration snippets
 _line_ = "\n----------------\n"
@@ -61,6 +62,138 @@ def add_unique_postfix(fn):
             return uni_fn
 
     return None
+
+def echo(text):
+    print(text)
+    textbox2.text += text + "  \n"
+    #v['textbox'].text += text + "  \n"
+
+
+    
+def init_dict_pref(pref):
+    if pref == "reikoku":
+        v['reikoku'].title = "✔︎"
+        v['weblio'].title = ""
+        v['wik-eng'].title = ""
+        v['wik-jpn'].title = ""
+        v['jisho'].title = ""
+        v['eijiro'].title = ""
+    elif pref == "weblio":
+        v['reikoku'].title = ""
+        v['weblio'].title = "✔︎"
+        v['wik-eng'].title = ""
+        v['wik-jpn'].title = ""
+        v['jisho'].title = ""
+        v['eijiro'].title = ""
+    elif pref == "wik-eng":
+        v['reikoku'].title = ""
+        v['weblio'].title = ""
+        v['wik-eng'].title = "✔︎"
+        v['wik-jpn'].title = ""
+        v['jisho'].title = ""
+        v['eijiro'].title = ""
+    elif pref == "wik-jpn":
+        v['reikoku'].title = ""
+        v['weblio'].title = ""
+        v['wik-eng'].title = ""
+        v['wik-jpn'].title = "✔︎"
+        v['jisho'].title = ""
+        v['eijiro'].title = ""
+    elif pref == "jisho":
+        v['reikoku'].title = ""
+        v['weblio'].title = ""
+        v['wik-eng'].title = ""
+        v['wik-jpn'].title = ""
+        v['jisho'].title = "✔︎"
+        v['eijiro'].title = ""
+    elif pref == "eijiro":
+        v['reikoku'].title = ""
+        v['weblio'].title = ""
+        v['wik-eng'].title = ""
+        v['wik-jpn'].title = ""
+        v['jisho'].title = ""
+        v['eijiro'].title = "✔︎"
+
+
+def init_bool_pref(pref, value):
+        if value == "1":
+            v[pref].title = "✔︎"
+        elif value == "0":
+            v[pref].title = ""
+        else:
+            pass
+        
+
+def select_dict(self):
+    if self.title == "":
+        self.title = "✔︎"
+        dict_pref = self.name
+        if self.name == "reikoku":
+            v['weblio'].title = ""
+            v['wik-eng'].title = ""
+            v['wik-jpn'].title = ""
+            v['jisho'].title = ""
+            v['eijiro'].title = ""
+        elif self.name == "weblio":
+            v['reikoku'].title = ""
+            v['wik-eng'].title = ""
+            v['wik-jpn'].title = ""
+            v['jisho'].title = ""
+            v['eijiro'].title = ""
+        elif self.name == "wik-eng":
+            v['weblio'].title = ""
+            v['reikoku'].title = ""
+            v['wik-jpn'].title = ""
+            v['jisho'].title = ""
+            v['eijiro'].title = ""
+        elif self.name == "wik-jpn":
+            v['weblio'].title = ""
+            v['reikoku'].title = ""
+            v['wik-eng'].title = ""
+            v['jisho'].title = ""
+            v['eijiro'].title = ""
+        elif self.name == "jisho":
+            v['weblio'].title = ""
+            v['reikoku'].title = ""
+            v['wik-eng'].title = ""
+            v['wik-jpn'].title = ""
+            v['eijiro'].title = ""
+        elif self.name == "eijiro":
+            v['weblio'].title = ""
+            v['reikoku'].title = ""
+            v['wik-eng'].title = ""
+            v['wik-jpn'].title = ""
+            v['jisho'].title = ""
+    PREFS.update({"dict": dict_pref})
+
+
+def load_prefs(path):
+    if os.path.isfile(path) is False:
+        defaultprefs = {'dict': 'weblio', 'tsv_out': '1', 'orphan_out': '1', 'jyouyou': '1', 'core': '1', 'user': '1', 'orphan': '1', 'jmdict': '1'}
+        write_prefs(defaultprefs, path)
+    with open(path, encoding='utf-8', newline='\n') as csvtext:
+        input = csv.reader(csvtext)
+        prefs = {str(row[0]):str(row[1]) for row in input}
+    return prefs
+
+def write_prefs(prefs, path): 
+    with open(path,'w') as f:
+        w = csv.writer(f)
+        w.writerows(prefs.items())
+        
+def set_pref(self):
+    if self.title == "":
+        self.title = "✔︎"
+        PREFS.update({self.name: "1"})
+    else:
+        self.title = ""
+        PREFS.update({self.name: "0"})
+        
+def exit_action(sender):
+    v.close()
+
+def sieve_action(sender):
+    sieve(PREFS)
 
 
 # kyouiku lists #
@@ -96,14 +229,19 @@ k6 = """異 遺 域 宇 映 延 沿 我 灰 拡 革 閣 割 株 干 巻 看 簡 
  閉 片 補 暮 宝 訪 亡 忘 棒 枚 幕 密 盟 模 訳 郵 優 幼 欲 翌 乱 卵 覧 裏 律 臨 朗 論"""
 
 
-def main(prefs_dict):
-    
-    prefs = prefs_dict
-    print("prefs:", prefs)
 
-    # first run unzip dict.db
+def sieve(prefs_dict):
+    
+    textbox2.text = ""
+    v['textbox'].text = ""
+
+    prefs = prefs_dict
+    print("prefs:`" + str(prefs) + "`")
+
+    # ------------------------------------------------- first run unzip dict.db
     if (os.path.isfile('data/dict.zip') is True
         and os.path.isfile('data/dict.db') is False):
+        print("unzipping 'data.zip'...")
         try:
             with zipfile.ZipFile('data/dict.zip', 'r') as zip:
                 zip.extractall('data/')
@@ -115,36 +253,43 @@ def main(prefs_dict):
         except:
             pass
 
-    # select file to sieve
+    spinner.bring_to_front()
+    spinner.start()
+    
+    # ---------------------------------------------------- select file to sieve
     filepath = dialogs.pick_document(
         types=["public.utf8-plain-text", "public.text"])
     if filepath is None:
-        dialogs.alert("⚠️ Alert",
-                      "No file found, script cancelled",
-                      "OK",
-                      hide_cancel_button=True)
-        print("user cancelled")
+        spinner.stop()
+        echo("user cancelled")
+        #dialogs.alert("⚠️ Alert",
+        #             "No file found, script cancelled",
+        #             "OK",
+        #             hide_cancel_button=True)
         sys.exit("user cancelled")
-    _file = open(filepath, "r", encoding="utf-8")
-    text = _file.read()
-    _file.close()
+    file = open(filepath, "r", encoding="utf-8")
+    text = file.read()
+    file.close()
 
-    # extract kanji - count kanji - sort count
+    
+    # -------------------------------- extract kanji - count kanji - sort count
     text2 = re.findall(kanji, text)
 
     if text2 is []:
+        spinner.stop()
         dialogs.alert("⚠️ Alert",
                       "This file contains no kanji, script cancelled",
                       "OK",
                       hide_cancel_button=True)
-        print("file contains no kanji")
+        echo("file contains no kanji")
         sys.exit("file contains no kanji")
+        
     kanji_count = (list(map(lambda kanji_character:
                   (kanji_character, text2.count(kanji_character)), set(text2))))
     kanji_count.sort(key=lambda a: a[1], reverse=True)
     kanji_list = list(map(lambda kanji_character: kanji_character, set(text2)))
 
-    # show kanji count at each level
+    # ------------------------------------------ show kanji count at each level
     tk1 = []
     tk2 = []
     tk3 = []
@@ -153,7 +298,7 @@ def main(prefs_dict):
     tk6 = []
     tk0 = []
 
-    # sieve and seperate kanji by level
+    # --------------------------------------- sieve and seperate kanji by level
     for i in kanji_count:
         if i[0] in k1:
             tk1 = tk1 + [i]
@@ -170,7 +315,7 @@ def main(prefs_dict):
         else:
             tk0 = tk0 + [i]
 
-    # choose a dictionary
+    # ----------------------------------------------------- choose a dictionary
 
     choice = prefs["dict"]
 
@@ -190,14 +335,14 @@ def main(prefs_dict):
     elif choice == "wik-jpn":
         url_scheme = "https://ja.m.wiktionary.org/wiki/"
         
-    print(choice + " dictionary chosen for links...")
+    echo(choice + " dictionary chosen for links...")
 
     # word list --  segment text then discard all but kanji groups #
     segmenter = tinysegmenter.TinySegmenter()
     text_tokenized = ' | '.join(segmenter.tokenize(text))
     word_list = text_tokenized.split(" | ")
 
-    # filter for kanji words
+    # -------------------------------------------------- filter for kanji words
     kanji_word_list = []
     for segment in word_list:
         for i in kanji_list:
@@ -206,7 +351,7 @@ def main(prefs_dict):
 
     kanji_word_list = list(set(kanji_word_list))
     kanji_word_list.sort()
-    # build dictionary from sub.csv
+    # ------------------------------------------- build dictionary from sub.csv
     # fragile ?
     with open("data/sub.csv", encoding='utf-8', newline='\n') as csvtext:
         input = csv.reader(csvtext)
@@ -218,7 +363,7 @@ def main(prefs_dict):
     except: pass
     kanji_word_list = list(sublist)
 
-    # filter for kana words
+    # --------------------------------------------------- filter for kana words
     # filter segments beginning or ending with ッ or っ as non-words
     temp_word_list = []
     for x in word_list:
@@ -245,7 +390,7 @@ def main(prefs_dict):
 
     kanji_word_listp = ", ".join(map(str, kanji_word_list))  # pretty
 
-    # omit list
+    # --------------------------------------------------------------- omit list
     # fragile ?
     omitwordlist = []
     omitted_words = []
@@ -261,14 +406,15 @@ def main(prefs_dict):
             set(kanji_word_list).difference(set(omitwordlist)))
         omitted_wordsp = ", ".join(map(str, omitted_words))  # pretty
 
+
     connection = sqlite3.connect("data/dict.db")  
     cursor = connection.cursor()
-    
+     
     flashcards = ""
     
-    # search corelist
+    # --------------------------------------------------------- search corelist
     if prefs["core"] == "1":
-        print("searching corelist...")
+        echo("searching corelist...")
         core_output = ""
         core_remaining_words = []
     
@@ -288,12 +434,13 @@ def main(prefs_dict):
                                + "\t" + str(definition[3]) + "\n")
             else:
                 core_remaining_words += [target]
+
     else:
         core_remaining_words = kanji_word_list
         
-    # search user table
+    # ------------------------------------------------------- search user table
     if prefs["user"] == "1":
-        print("searching user list...")
+        echo("searching user list...")
         sieve_output = ""
         sieve_remaining_words = []
         # search for kanji & kana
@@ -314,13 +461,13 @@ def main(prefs_dict):
                                + "\t" + str(definition[3]) + "\n")
             else:
                 sieve_remaining_words += [target]
+
     else:
         sieve_remaining_words = core_remaining_words
 
-    # search jmdict
+    # ----------------------------------------------------------- search jmdict
     if prefs["jmdict"] == "1":
-        print("searching jmdict for kanji...")
-        
+        echo("searching jmdict for kanji...")
         # search for kanji and katakana
         jmdict_output = ""
         jm_remaining_words = []
@@ -343,8 +490,8 @@ def main(prefs_dict):
             else:
                 jm_remaining_words += [target]
     
-        # search jmdict for kana only
-        print("searching jmdict for kana...")
+        # ----------------------------------------- search jmdict for kana only
+        echo("searching jmdict for kana...")
         
         sieve_remaining_kana = list(
             set(jm_remaining_words).intersection(set(kana_word_list)))
@@ -369,13 +516,13 @@ def main(prefs_dict):
                                + "\t" + str(definition[3]) + "\n")
             else:
                 jm_remaining_kana += [target]
+        
     else:
         jm_remaining_kana = []
         jm_remaining_kanji = sieve_remaining_words
-        
-
+    
     connection.commit()
-    connection.close()
+    connection.close()    
 
     remaining_words = jm_remaining_kana + jm_remaining_kanji
     
@@ -384,9 +531,9 @@ def main(prefs_dict):
         orphan = (orphan + "[" + word + "]"
                   + "(" + url_scheme + word + ") :  \n")
 
-    print("formatting ... \n\n")
+    echo("formatting ... \n\n")
 
-    # prettify text
+    # ----------------------------------------------------------- prettify text
     # list of tuples [(x,y)] to string x(y)
     def pretty(text):
         text = " ".join(map(str, text))
@@ -410,65 +557,65 @@ def main(prefs_dict):
     core_remaining_wordsp = str(core_remaining_words).replace("[", "").replace(
         "'", "").replace("]", "")
 
-    # output to console #
-    print(text)
-    print("\ncharacters in text:", len(text))
-    print(_line_)
-    print("kanji in text:", len(text2))
-    print("discrete kanji in text:", len(kanji_count), "\n")
-    print(kanji_countp)
-    print(_line_)
+    # ------------------------------------------------------- output to console
+    echo(text)
+    echo("\ncharacters in text: " + str(len(text)))
+    echo(_line_)
+    echo("kanji in text: " + str(len(text2)))
+    echo("discrete kanji in text: " + str(len(kanji_count)) + "\n")
+    echo(kanji_countp)
+    echo(_line_)
     if prefs["jyouyou"] == "1":
-        print("    1年:", len(tk1))
-        print(tk1p)
-        print(_line_)
-        print("    2年:", len(tk2))
-        print(tk2p)
-        print(_line_)
-        print("    3年:", len(tk3))
-        print(tk3p)
-        print(_line_)
-        print("    4年:", len(tk4))
-        print(tk4p)
-        print(_line_)
-        print("    5年:", len(tk5))
-        print(tk5p)
-        print(_line_)
-        print("    6年:", len(tk6))
-        print(tk6p)
-        print(_line_)
-        print("   中学+:", len(tk0))
-        print(tk0p)
-        print(_line_)
-    print("words or word fragments searched in text:",
-          len(kanji_word_list), "\n")
-    print(kanji_word_listp, "\n")
-    print("omitted from search:", len(omitted_words), "\n")
-    print(omitted_wordsp)
-    print(_line_)
+        echo("    1年: " + str(len(tk1)))
+        echo(tk1p)
+        echo(_line_)
+        echo("    2年: " + str(len(tk2)))
+        echo(tk2p)
+        echo(_line_)
+        echo("    3年: " + str(len(tk3)))
+        echo(tk3p)
+        echo(_line_)
+        echo("    4年: " + str(len(tk4)))
+        echo(tk4p)
+        echo(_line_)
+        echo("    5年: " + str(len(tk5)))
+        echo(tk5p)
+        echo(_line_)
+        echo("    6年: " + str(len(tk6)))
+        echo(tk6p)
+        echo(_line_)
+        echo("   中学+: " + str(len(tk0)))
+        echo(tk0p)
+        echo(_line_)
+    echo("words or word fragments searched in text: " 
+          + str(len(kanji_word_list)) + "\n")
+    echo(kanji_word_listp + "\n")
+    echo("omitted from search: " + str(len(omitted_words)) + "\n")
+    echo(omitted_wordsp)
+    echo(_line_)
     if prefs["core"] == "1":
-        print("core 6k list:  \n")
-        print(core_output)
-        print("remaining:", len(core_remaining_words), "\n")
-        print(core_remaining_wordsp)
-        print(_line_)
+        echo("core 6k list:  \n")
+        echo(core_output)
+        echo("remaining: " + str(len(core_remaining_words)) + "\n")
+        echo(core_remaining_wordsp)
+        echo(_line_)
     if prefs["user"] == "1":
-        print("user list:  \n")
-        print(sieve_output)
-        print("remaining:", len(sieve_remaining_words), "\n")
-        print(sieve_remaining_wordsp)
-        print(_line_)
+        echo("user list:  \n")
+        echo(sieve_output)
+        echo("remaining: " + str(len(sieve_remaining_words)) + "\n")
+        echo(sieve_remaining_wordsp)
+        echo(_line_)
     if prefs["jmdict"] == "1":
-        print("jmdict:  \n")
-        print(jmdict_output)
-        print("remaining:", len(remaining_words), "\n")
-        print(remaining_wordsp)
-        print(_line_)
+        echo("jmdict:  \n")
+        echo(jmdict_output)
+        echo("remaining: " + str(len(remaining_words)) + "\n")
+        echo(remaining_wordsp)
+        echo(_line_)
     if prefs["orphan"] == "1":
-        print(orphan)
-    print("\n\nSaving to file ... \n\n")
+        echo(orphan)
+    echo("\n\nSaving to file ... \n\n")
 
-    # text for output #
+    # --------------------------------------------------------- text for output
     sieved_text = (f'''
 {text} \n
 __characters in text:__ {len(text)}
@@ -537,7 +684,7 @@ __remaining words:__  {len(remaining_words)}  \n
 _generated with [Kanji Sieve {VERSION}](https://github.com/takarabune/kanji_sieve)_
     ''')
 
-    # save output #
+    # ------------------------------------------------------------- save output
     newdir = "kanji sieve output/"
     newfile = Path(newdir)
     if not newfile.is_dir():
@@ -553,7 +700,7 @@ _generated with [Kanji Sieve {VERSION}](https://github.com/takarabune/kanji_siev
     newfile.write(newtext)
     newfile.close()
 
-    # save flashcards #
+    # --------------------------------------------------------- save flashcards
     if prefs["tsv_out"] == "1":
         newdir = "flashcards output/"
         newfile = Path(newdir)
@@ -574,7 +721,7 @@ _generated with [Kanji Sieve {VERSION}](https://github.com/takarabune/kanji_siev
                  + time.ctime() + "  \n" + orphan)
     newfile.close()
 
-    # prepare substitute list from orphans.
+    # ----------------------------------- prepare substitute list from orphans.
     if prefs["orphan_out"] == "1":
         if len(remaining_words) > 0:
             newfile = open("kanji sieve output/" + Path(filepath).stem
@@ -582,11 +729,64 @@ _generated with [Kanji Sieve {VERSION}](https://github.com/takarabune/kanji_siev
             newfile.write("\n".join(map(str, remaining_words)))
             newfile.close()
 
-    print("saved \n")
+
+    spinner.stop()
+    
+    echo("saved \n")
     dialogs.hud_alert("saved")
+    
+    
+# ------------------------------------------------------------------ build GUI
+v = ui.load_view()
+
+exit_button = ui.ButtonItem()
+exit_button.title = 'Exit'
+exit_button.tint_color = 'black'
+exit_button.action = exit_action
+sieve_button = ui.ButtonItem()
+sieve_button.title = 'Sieve File'
+sieve_button.tint_color = 'blue'
+sieve_button.action = sieve_action
+v.left_button_items = [exit_button]
+v.right_button_items = [sieve_button]
+
+textbox2 = MarkdownView(frame=(6, 6, 312, 367), flex="WH", name = 'textbox')
+textbox2.editable = False
+textbox2.font = ('AppleSDGothicNeo-Light', 16)
+textbox2.background_color = '#f7f9ff'
+textbox2.text_color = '#030b60'
+textbox2.margins = (10, 10, 10, 10)
+
+spinner = ui.ActivityIndicator()
+spinner.style = ui.ACTIVITY_INDICATOR_STYLE_WHITE_LARGE
+spinner.hides_when_stopped = True
+spinner.x = (v.width / 2.0) - 75
+spinner.y = (v.height / 2.0) - 140
+spinner.flex = "LRTB"
+spinner.background_color = "#000000"
+spinner.alpha = 0.8
+spinner.height = 150
+spinner.width = 150
+spinner.corner_radius = 10
+v.add_subview(spinner)
 
 
-if __name__ == '__main__':
-    main()
+v.add_subview(textbox2)
+v.update_interval = 1
+v.present('fullscreen', hide_close_button=True)
+
+# -----------------------------------------------------------  initialise prefs
+PREFS = load_prefs("data/kanji_sieve.pref")
+dict_pref = PREFS["dict"]
+init_dict_pref(dict_pref)
+for pref, value in PREFS.items():
+    init_bool_pref(pref, value)
+
+v.wait_modal()
+
+# -------------------------------------------------------  on close write prefs
+write_prefs(PREFS, "data/kanji_sieve.pref")
+
+
 
 
