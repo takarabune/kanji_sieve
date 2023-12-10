@@ -1,5 +1,5 @@
 # -----------------------------------------#
-#   Kanji Sieve 1.15 for Pythonista 3
+#   Kanji Sieve 1.15.1 for Pythonista 3
 #   2023-12-10
 #   (c)Robert Belton BSD 3-Clause License
 #
@@ -164,12 +164,12 @@ def select_dict(self):
             v['wik-eng'].title = ""
             v['wik-jpn'].title = ""
             v['jisho'].title = ""
-    PREFS.update({"dict": dict_pref})
+        PREFS.update({"dict": dict_pref})
 
 
 def load_prefs(path):
     if os.path.isfile(path) is False:
-        defaultprefs = {'dict': 'weblio', 'tsv_out': '1', 'orphan_out': '1', 'jyouyou': '1', 'core': '1', 'user': '1', 'orphan': '1', 'jmdict': '1'}
+        defaultprefs = {'dict': 'weblio', 'tsv_out': '1', 'orphan_out': '1', 'kyouiku': '1', 'core': '1', 'user': '1', 'orphan': '1', 'jmdict': '1'}
         write_prefs(defaultprefs, path)
     with open(path, encoding='utf-8', newline='\n') as csvtext:
         input = csv.reader(csvtext)
@@ -565,7 +565,7 @@ def sieve(prefs_dict):
     echo("discrete kanji in text: " + str(len(kanji_count)) + "\n")
     echo(kanji_countp)
     echo(_line_)
-    if prefs["jyouyou"] == "1":
+    if prefs["kyouiku"] == "1":
         echo("    1年: " + str(len(tk1)))
         echo(tk1p)
         echo(_line_)
@@ -624,7 +624,7 @@ __kanji in text:__ {len(text2)}  \n
 __discrete kanji in text:__ {len(kanji_count)} \n
 {kanji_countp}
 {_line_}''')
-    if prefs["jyouyou"] == "1":
+    if prefs["kyouiku"] == "1":
         sieved_text += (f'''
 1.  __第一学年:__ {len(tk1)}  \n
 {tk1p}
