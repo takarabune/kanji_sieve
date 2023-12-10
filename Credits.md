@@ -13,3 +13,8 @@ This publication has included material from the [JMdict](https://www.edrdg.org/w
 
 ### add unique postfix
 by [Denis Barmenkov](http://code.activestate.com/recipes/577200-make-unique-file-name/)  
+
+### ks_MarkdownView
+This is a fork of [MarkdownView by mikaelho](https://github.com/mikaelho/pythonista-markdownview)
+used with [permission](https://github.com/mikaelho/pythonista-markdownview/issues/8#event-11203089425)
+
