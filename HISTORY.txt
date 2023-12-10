@@ -1,3 +1,5 @@
+v1.15.1  2023 Dec 10  -  Corrected 'jyouyou' to 'kyouiku' in interface and prefs
+----------------------------------------------------------------------------------------------------
 v1.15    2023 Dec 10  -  Fullscreen gui interface
 						 Merged 'kanji_sieve' and 'kanji_sieve_gui' to 'kanji_sieve'
                          'ks_MarkdownView' used to display output with live links
