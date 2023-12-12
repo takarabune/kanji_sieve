@@ -1,6 +1,6 @@
 # -----------------------------------------#
-#   Kanji Sieve 1.16 for Pythonista 3
-#   2023-12-10
+#   Kanji Sieve 1.17 for Pythonista 3
+#   2023-12-12
 #   (c)Robert Belton BSD 3-Clause License
 #
 #
@@ -14,11 +14,16 @@
 #   requires:
 #      kanji_sieve.pyui
 #      data/dict.db
-#      data/omit.csv
-#      data/sub.csv
+#
+#   will build (if not present):
+#      data/omit.ksv
+#      data/sub.ksv
+#      data/kanji_sieve.pref
+#      data/orphans.ksv
 #
 #   dependencies:
 #      tinysegmenter
+#      add_to_dict
 #      
 #
 # -----------------------------------------#
@@ -35,11 +40,12 @@ import os
 import csv
 import zipfile
 import webbrowser
+import add_to_dict as a2d
 from markdown2 import Markdown 
 from pathlib import Path
 
 # ------------------------------------------------------------------- constants
-VERSION = "1.16"
+VERSION = "1.17"
 
 # decoration snippets
 _LINE_ = "\n----------------\n"
@@ -137,7 +143,7 @@ K6 = """異 遺 域 宇 映 延 沿 我 灰 拡 革 閣 割 株 干 巻 看 簡 
 class HTMLviewer (object):
     def webview_should_start_load(self, webview, url, nav_type):
         # Open 'http(s)' links in Safari
-        # x-url for Reikoku as OS decides
+        # x-url for Reikoku 
         if nav_type == 'link_clicked':
             if url.startswith('http:') or url.startswith('https:'):
                 url = 'safari-' + url
@@ -262,7 +268,7 @@ def select_dict(self):
 
 def load_prefs(path):
     if os.path.isfile(path) is False:
-        defaultprefs = {'dict': 'weblio', 'tsv_out': '1', 'orphan_out': '1', 'kyouiku': '1', 'core': '1', 'user': '1', 'orphan': '1', 'jmdict': '1'}
+        defaultprefs = {'dict': 'weblio', 'tsv_out': '1', 'orphan_out': '1', 'kyouiku': '1', 'core': '1', 'user': '1', 'orphan': '1', 'jmdict': '1', 'add_orphans': '1'} 
         write_prefs(defaultprefs, path)
     with open(path, encoding='utf-8', newline='\n') as csvtext:
         input = csv.reader(csvtext)
@@ -303,6 +309,103 @@ def html_convert_display(md_text):
     html_text = markdowner.convert(md_text)
     html_text_raw = HTML_1 + CSS + HTML_2  +  html_text + HTML_3
     v['webview1'].load_html(html_text_raw)
+
+
+output_text = '''
+
+'''
+
+def sanitise_text(text):
+    out = text.replace("<--->", ",")
+    out = out.replace("、", ",")
+    out = out.replace(" ", "")
+    out = out.replace("\n,\n", "\n")
+    out = out.replace(",\n", ",x\n")
+    out = out.replace("\n", "\n\n")
+    out = re.sub(r"\n([^,^\n]+)\n", r"\n\1,x\n", out)
+    out = out.replace("\n\n", "\n")
+    out = out.replace("\n\n", "\n")
+    out = out.replace("\n,", "\nx,")
+
+    return out
+    
+    
+def text_transform(text):
+    out = text.replace("//,", "//=")
+    out = out.replace(",", " <---> ")
+    out = out.replace("//=", "//,")
+    return out
+
+
+def edit_substitutes_button(sender):
+    # initialise file 
+    if os.path.isfile("data/sub.ksv") is False:
+        default_text = '''//,on.save.this.file.will.be.stripped.of.white.space
+//,Japanese.comma.will.be.convereted.to.ascii.comma
+//,the.script.expects.pairs.of.terms.seperated.by.a.comma
+//,term.[comma].substitute
+//,.,.is.only.for.display.purposes.
+//,.,.will.be.converted.to.commas.on.save.or.exit.
+//,entry.should.be.made.using.commas.between.terms
+//,for.a.blank.substitute.an.x.will.be.inserted.and.the.term
+//,won't.be.used.for.search.
+//,multiple.blank.lines. will.be.reduced.by.half.
+//,blank.lines.and.lines.starting '//[comma]'are.ignored.in
+//,.the.script.but.are.still.stripped.of.white.space.
+//,.this.text.can.be.deleted.
+'''
+        with open("data/sub.ksv", "w", encoding = "utf8") as newfile:
+            newfile.write(default_text)
+            newfile.close()
+        
+    with open("data/sub.ksv", "r", encoding = "utf8") as file:
+        if PREFS["add_orphans"] == "1":
+            with open("data/orphans.ksv", "r", encoding = "utf8") as file2:
+                d_input = text_transform(file.read()) + "\n" + file2.read()
+        else:
+            d_input = text_transform(file.read())
+            
+        output = dialogs.text_dialog(title="Edit Substitute List", text=d_input )
+        
+    if output is not None:
+        output = sanitise_text(output)
+        with open("data/sub.ksv", "w", encoding = "utf8") as newfile:
+            newfile.write(output)
+            newfile.close()
+
+
+def edit_omit_button(sender):
+    # initialise file 
+    if os.path.isfile("data/omit.ksv") is False:
+        default_text = '''//this file contains words to omit from searches in kanji sieve.
+//one word per line.
+//a double slash at the start of a line will comment out the line. 
+//blank lines ignored.
+'''
+        with open("data/omit.ksv", "w", encoding = "utf8") as newfile:
+            newfile.write(default_text)
+            newfile.close()
+        
+    with open("data/omit.ksv", "r", encoding = "utf8") as file:
+        if PREFS["add_orphans"] == "1":
+            with open("data/orphans.ksv", "r", encoding = "utf8") as file2:
+                d_input = file.read() + "\n" + file2.read()
+        else:
+            d_input = file.read()
+            
+        output = dialogs.text_dialog(title="Edit Omit List", text=d_input)
+        
+    if output is not None:
+        with open("data/omit.ksv", "w", encoding = "utf8") as newfile:
+            newfile.write(output)
+            newfile.close()
+    
+    
+
+def add2dict_button(sender):
+    write_prefs(PREFS, "data/kanji_sieve.pref")
+    a2d.main()
+    
 
 
 # --------------------------------------------------------------- kanji sieve #
@@ -428,11 +531,15 @@ def sieve():
 
     kanji_word_list = list(set(kanji_word_list))
     kanji_word_list.sort()
-    # ------------------------------------------- build dictionary from sub.csv
+    # ------------------------------------------- build dictionary from sub.ksv
     # fragile ?
-    with open("data/sub.csv", encoding='utf-8', newline='\n') as csvtext:
+    with open("data/sub.ksv", encoding='utf-8', newline='\n') as csvtext:
         input = csv.reader(csvtext)
-        subdict = {str(row[0]):str(row[1]) for row in input}
+        subdict = {}
+        for row in input:
+            if re.search(r"//", str(row)) is None:
+                try: subdict.update( {str(row[0]):str(row[1])} )
+                except: pass  # ignore index out of range for blank lines
     # substitute values in kanji_word_list
     sublist =  [subdict.get(item,item) for item in kanji_word_list]
     sublist = set(sublist)
@@ -471,7 +578,7 @@ def sieve():
     # fragile ?
     omitwordlist = []
     omitted_words = []
-    with open("data/omit.csv", encoding='utf-8', newline='\n') as text3:
+    with open("data/omit.ksv", encoding='utf-8', newline='\n') as text3:
         input = csv.reader(text3)
         for row in input:
             if re.search(r"//", str(row)) is None:
@@ -604,10 +711,9 @@ def sieve():
     remaining_words = jm_remaining_kana + jm_remaining_kanji
     
     orphan = ""
-    for word in remaining_words:
+    for word in remaining_words: 
         orphan = (orphan + "[" + word + "]"
                   + "(" + url_scheme + word + ") :  \n")
-
     echo("formatting ... \n\n")
 
     # ----------------------------------------------------------- prettify text
@@ -794,22 +900,30 @@ _generated with [Kanji Sieve {VERSION}](https://github.com/takarabune/kanji_siev
         newfile.write(newtext)
         newfile.close()
 
-    # append to orphans file
-    newfile = open("kanji sieve output/orphans.md", "a", encoding="utf-8")
+    # append to orphans log file
+    newfile = open("kanji sieve output/orphans_log.md", "a", encoding="utf-8")
     newfile.write("\n\n" + Path(filepath).stem + "  \n"
                  + time.ctime() + "  \n" + orphan)
     newfile.close()
 
-    # ----------------------------------- prepare substitute list from orphans.
+    # ------------------------------------------------------------- orphans csv
     if PREFS["orphan_out"] == "1":
         if len(remaining_words) > 0:
             newfile = open("kanji sieve output/" + Path(filepath).stem
                          + "_orphans.csv", "w", encoding="utf-8")
             newfile.write("\n".join(map(str, remaining_words)))
             newfile.close()
+            
+    # ------------------------------------------------------------ last orphans
+    newfile = open("data/orphans.ksv", "w", encoding="utf-8")
+    newfile.write("\n".join(map(str, remaining_words)))
+    newfile.close()
 
 
     spinner.stop()
+    v['sub_button'].enabled = True
+    v['omit_button'].enabled = True
+    v['dict_button'].enabled = True
     
     echo("saved \n")
     dialogs.hud_alert("saved")
@@ -830,6 +944,10 @@ sieve_button.action = sieve_action
 
 v.left_button_items = [exit_button]
 v.right_button_items = [sieve_button]
+
+#v['sub_button'].enabled = False
+#v['omit_button'].enabled = False
+#v['dict_button'].enabled = False
 
 spinner = ui.ActivityIndicator()
 spinner.style = ui.ACTIVITY_INDICATOR_STYLE_WHITE_LARGE
@@ -857,7 +975,6 @@ v.present('fullscreen', hide_close_button=True)
 init_dict_pref(dict_pref)
 for pref, value in PREFS.items():
     init_bool_pref(pref, value)
-
 v.wait_modal()
 
 # -------------------------------------------------------  on close write prefs

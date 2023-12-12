@@ -5,7 +5,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{324, 228}, {439, 24}}",
+        "frame" : "{{322, 228}, {439, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -26,7 +26,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{324, 6}, {440, 24}}",
+        "frame" : "{{322, 6}, {440, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -47,7 +47,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{345, 6}, {284, 24}}",
+        "frame" : "{{343, 6}, {284, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -68,7 +68,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{503, 70}, {24, 24}}",
+        "frame" : "{{501, 70}, {24, 24}}",
         "class" : "Button",
         "attributes" : {
           "uuid" : "8FF59A46-AD70-44F2-8A65-39F2AD96C466",
@@ -91,7 +91,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{503, 102}, {24, 24}}",
+        "frame" : "{{501, 102}, {24, 24}}",
         "class" : "Button",
         "attributes" : {
           "uuid" : "8FF59A46-AD70-44F2-8A65-39F2AD96C466",
@@ -114,7 +114,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{503, 38}, {24, 24}}",
+        "frame" : "{{501, 38}, {24, 24}}",
         "class" : "Button",
         "attributes" : {
           "uuid" : "8FF59A46-AD70-44F2-8A65-39F2AD96C466",
@@ -137,7 +137,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{345, 38}, {150, 24}}",
+        "frame" : "{{343, 38}, {150, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -156,7 +156,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{345, 70}, {150, 24}}",
+        "frame" : "{{343, 70}, {150, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -175,7 +175,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{345, 102}, {150, 24}}",
+        "frame" : "{{343, 102}, {150, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -194,7 +194,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{535, 38}, {150, 24}}",
+        "frame" : "{{533, 38}, {150, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -213,7 +213,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{535, 70}, {150, 24}}",
+        "frame" : "{{533, 70}, {150, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -232,7 +232,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{535, 102}, {150, 24}}",
+        "frame" : "{{533, 102}, {150, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -251,7 +251,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{693, 38}, {24, 24}}",
+        "frame" : "{{691, 38}, {24, 24}}",
         "class" : "Button",
         "attributes" : {
           "uuid" : "8FF59A46-AD70-44F2-8A65-39F2AD96C466",
@@ -274,7 +274,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{693, 70}, {24, 24}}",
+        "frame" : "{{691, 70}, {24, 24}}",
         "class" : "Button",
         "attributes" : {
           "uuid" : "8FF59A46-AD70-44F2-8A65-39F2AD96C466",
@@ -297,7 +297,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{693, 102}, {24, 24}}",
+        "frame" : "{{691, 102}, {24, 24}}",
         "class" : "Button",
         "attributes" : {
           "uuid" : "8FF59A46-AD70-44F2-8A65-39F2AD96C466",
@@ -320,7 +320,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{345, 181}, {150, 24}}",
+        "frame" : "{{343, 181}, {150, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -339,7 +339,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{535, 181}, {150, 24}}",
+        "frame" : "{{533, 181}, {150, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -358,7 +358,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{345, 260}, {150, 24}}",
+        "frame" : "{{343, 260}, {150, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -377,7 +377,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{345, 292}, {150, 24}}",
+        "frame" : "{{343, 292}, {150, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -396,7 +396,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{345, 228}, {284, 24}}",
+        "frame" : "{{343, 228}, {284, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -417,7 +417,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{324, 149}, {440, 24}}",
+        "frame" : "{{322, 149}, {440, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -438,7 +438,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{345, 149}, {284, 24}}",
+        "frame" : "{{343, 149}, {284, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -459,7 +459,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{503, 181}, {24, 24}}",
+        "frame" : "{{501, 181}, {24, 24}}",
         "class" : "Button",
         "attributes" : {
           "uuid" : "8FF59A46-AD70-44F2-8A65-39F2AD96C466",
@@ -482,7 +482,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{693, 181}, {24, 24}}",
+        "frame" : "{{691, 181}, {24, 24}}",
         "class" : "Button",
         "attributes" : {
           "uuid" : "8FF59A46-AD70-44F2-8A65-39F2AD96C466",
@@ -505,7 +505,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{503, 260}, {24, 24}}",
+        "frame" : "{{501, 260}, {24, 24}}",
         "class" : "Button",
         "attributes" : {
           "uuid" : "8FF59A46-AD70-44F2-8A65-39F2AD96C466",
@@ -528,7 +528,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{503, 292}, {24, 24}}",
+        "frame" : "{{501, 292}, {24, 24}}",
         "class" : "Button",
         "attributes" : {
           "uuid" : "8FF59A46-AD70-44F2-8A65-39F2AD96C466",
@@ -551,7 +551,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{535, 260}, {150, 24}}",
+        "frame" : "{{533, 260}, {150, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -570,7 +570,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{535, 292}, {150, 24}}",
+        "frame" : "{{533, 292}, {150, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -589,7 +589,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{535, 326}, {150, 24}}",
+        "frame" : "{{533, 326}, {150, 24}}",
         "class" : "Label",
         "attributes" : {
           "flex" : "LB",
@@ -608,7 +608,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{693, 260}, {24, 24}}",
+        "frame" : "{{691, 260}, {24, 24}}",
         "class" : "Button",
         "attributes" : {
           "uuid" : "8FF59A46-AD70-44F2-8A65-39F2AD96C466",
@@ -631,7 +631,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{693, 292}, {24, 24}}",
+        "frame" : "{{691, 292}, {24, 24}}",
         "class" : "Button",
         "attributes" : {
           "uuid" : "8FF59A46-AD70-44F2-8A65-39F2AD96C466",
@@ -654,7 +654,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{693, 326}, {24, 24}}",
+        "frame" : "{{691, 326}, {24, 24}}",
         "class" : "Button",
         "attributes" : {
           "uuid" : "8FF59A46-AD70-44F2-8A65-39F2AD96C466",
@@ -677,7 +677,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{345, 364}, {418, 22}}",
+        "frame" : "{{343, 482}, {418, 27}}",
         "class" : "TextView",
         "attributes" : {
           "uuid" : "C32270F0-3FF5-4A6C-A083-DC8C78E6250C",
@@ -705,7 +705,7 @@
         "nodes" : [
 
         ],
-        "frame" : "{{6, 6}, {319, 374}}",
+        "frame" : "{{6, 6}, {317, 497}}",
         "class" : "WebView",
         "attributes" : {
           "flex" : "WH",
@@ -718,16 +718,190 @@
           "name" : "webview1"
         },
         "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{343, 390}, {166, 32}}",
+        "class" : "Button",
+        "attributes" : {
+          "uuid" : "DC73B04A-0DA2-4B14-B130-7FB1974092F5",
+          "font_size" : 15,
+          "corner_radius" : 6,
+          "background_color" : "RGBA(0.829403,0.939990,0.995283,1.000000)",
+          "frame" : "{{341, 239}, {80, 32}}",
+          "border_color" : "RGBA(0.000000,0.000000,1.000000,1.000000)",
+          "border_width" : 1,
+          "title" : "Edit Substitutes",
+          "action" : "edit_substitutes_button",
+          "font_bold" : true,
+          "class" : "Button",
+          "name" : "sub_button",
+          "flex" : "LB"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{549, 390}, {166, 32}}",
+        "class" : "Button",
+        "attributes" : {
+          "uuid" : "DC73B04A-0DA2-4B14-B130-7FB1974092F5",
+          "font_size" : 15,
+          "corner_radius" : 6,
+          "background_color" : "RGBA(0.827451,0.937255,0.992157,1.000000)",
+          "frame" : "{{341, 239}, {80, 32}}",
+          "border_color" : "RGBA(0.000000,0.000000,1.000000,1.000000)",
+          "border_width" : 1,
+          "title" : "Edit Omits",
+          "action" : "edit_omit_button",
+          "font_bold" : true,
+          "class" : "Button",
+          "name" : "omit_button",
+          "flex" : "LB"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{343, 439}, {166, 32}}",
+        "class" : "Button",
+        "attributes" : {
+          "uuid" : "DC73B04A-0DA2-4B14-B130-7FB1974092F5",
+          "font_size" : 15,
+          "corner_radius" : 6,
+          "background_color" : "RGBA(0.827451,0.937255,0.992157,1.000000)",
+          "frame" : "{{341, 239}, {80, 32}}",
+          "border_color" : "RGBA(0.000000,0.000000,1.000000,1.000000)",
+          "border_width" : 1,
+          "title" : "Add to Dictionary",
+          "action" : "add2dict_button",
+          "font_bold" : true,
+          "class" : "Button",
+          "name" : "dict_button",
+          "flex" : "LB"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{563, 443}, {24, 24}}",
+        "class" : "Button",
+        "attributes" : {
+          "uuid" : "8FF59A46-AD70-44F2-8A65-39F2AD96C466",
+          "font_size" : 24,
+          "corner_radius" : 3,
+          "background_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+          "frame" : "{{120, 248}, {80, 32}}",
+          "border_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+          "border_width" : 1,
+          "title" : "",
+          "action" : "set_pref",
+          "font_bold" : false,
+          "class" : "Button",
+          "name" : "add_orphans",
+          "flex" : "LB"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{606, 434}, {150, 46}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "LB",
+          "name" : "label1",
+          "frame" : "{{85, 248}, {150, 32}}",
+          "uuid" : "90B004FE-B5B7-417E-9714-215A44F0D981",
+          "class" : "Label",
+          "alignment" : "left",
+          "text" : "add orphans when editing",
+          "number_of_lines" : 2,
+          "font_size" : 16,
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{322, 358}, {439, 24}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "LB",
+          "name" : "label1",
+          "font_name" : "<System>",
+          "frame" : "{{85, 248}, {150, 32}}",
+          "uuid" : "90B004FE-B5B7-417E-9714-215A44F0D981",
+          "class" : "Label",
+          "alignment" : "left",
+          "text" : " ",
+          "background_color" : "RGBA(0.900000,1.000000,1.000000,1.000000)",
+          "font_size" : 11,
+          "text_color" : "RGBA(0.481132,0.481132,0.481132,1.000000)"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{343, 358}, {284, 24}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "LB",
+          "font_size" : 11,
+          "text_color" : "RGBA(0.481132,0.481132,0.481132,1.000000)",
+          "frame" : "{{85, 248}, {150, 32}}",
+          "uuid" : "90B004FE-B5B7-417E-9714-215A44F0D981",
+          "class" : "Label",
+          "alignment" : "left",
+          "text" : "Editing",
+          "background_color" : "RGBA(0.900000,1.000000,1.000000,1.000000)",
+          "name" : "label1",
+          "font_name" : "<System>"
+        },
+        "selected" : false
+      },
+      {
+        "nodes" : [
+
+        ],
+        "frame" : "{{682, 482}, {65, 24}}",
+        "class" : "Label",
+        "attributes" : {
+          "flex" : "LT",
+          "font_size" : 10,
+          "text_color" : "RGBA(0.266667,0.266667,1.000000,1.000000)",
+          "frame" : "{{85, 248}, {150, 32}}",
+          "uuid" : "90B004FE-B5B7-417E-9714-215A44F0D981",
+          "class" : "Label",
+          "alignment" : "right",
+          "text" : "v1.17",
+          "name" : "label1",
+          "font_name" : "<System>"
+        },
+        "selected" : false
       }
     ],
-    "frame" : "{{0, 0}, {764, 386}}",
+    "frame" : "{{0, 0}, {762, 509}}",
     "class" : "View",
     "attributes" : {
       "name" : "Kanji Sieve",
       "enabled" : true,
+      "border_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
       "background_color" : "RGBA(0.966981,0.966981,0.966981,1.000000)",
       "tint_color" : "RGBA(0.000000,0.478000,1.000000,1.000000)",
-      "border_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
       "flex" : ""
     },
     "selected" : false
