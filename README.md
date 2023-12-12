@@ -1,4 +1,4 @@
-### Kanji Sieve v1.16
+### Kanji Sieve v1.17
 
 A wip script for Pythonista 3 that takes a Japanese text and outputs a markdown file giving a basic analysis of its kanji and a glossary of kanji based vocabulary with links to a dictionary resource. 
 
@@ -21,7 +21,7 @@ You have a choice of dictionary to use for the links.
 The text is broken down by [TinySegmenter](https://github.com/SamuraiT/tinysegmenter). The lexical units can tend to be word fragments, like verb stems, which can affect the searches.  Because of this there is a chance to edit the terms searched for, and there is a user compiled substitutions file ``data/sub.csv`` which has pairs of words to substitute. 
 
 Depending on preferences, as the dictionaries searched can be toggled on and off, first a 'Core 6k' vocabulary list is searched. Anything not found is searched for in a custom user list, and anything not found there is searched for in JMdict. Only the first result is returned in JMdict, and this might not be the most common. Any words left over are then listed.  
-These 'orphans' and any strange returns from JMdict can then be researched and manually entered into the user table in ``dict.db`` using ``add_to_dict.py`` for future searches, or for a second pass. Alternatively they can be added to ``data/omit.csv`` This file is a list of words (one word per line) to omit from searches; ideally because they are already very familiar. Or they can be added to ``data/sub.csv`` with a substitution to improve the search. eg. the verb stem 乗っ	would be substituted by 乗る the dict form. Making these corrections and substitutions improves the search results in subsequent sieves. 
+These 'orphans' and any strange returns from JMdict can then be researched and manually entered into the user table in ``dict.db`` using the``add to dictionary`` button for future searches, or for a second pass. Alternatively, also from the main view, they can be added to ``data/omit.ksv`` This file is a list of words (one word per line) to omit from searches; ideally because they are already very familiar. Or they can be added to ``data/sub.ksv`` with a substitution to improve the search. eg. the verb stem 乗っ	would be substituted by 乗る the dict form. Making these corrections and substitutions improves the search results in subsequent sieves. 
 
 The output will appear in a scrollable textbox. A markdown file will also be generated, along with a tsv file of found words from the glossary, and a file listing the words not found. The complete session will also be in the console.
 The whole process takes just a few seconds for a page of text. (800 to 1000 characters and approx 120 words to search)
