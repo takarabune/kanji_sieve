@@ -1,6 +1,6 @@
 # -----------------------------------------#
-#   Add to Dict  2.1 gui 
-#   2023-12-12
+#   Add to Dict  2.1.1 gui 
+#   2023-12-14
 #   (c)Robert Belton BSD 3-Clause License
 #
 #   Adds entries to user table dict.db
@@ -30,28 +30,25 @@ def load_prefs(path):
         input = csv.reader(csvtext)
         prefs = {str(row[0]):str(row[1]) for row in input}
     return prefs
-
+  
+    
 def main():
     
     PREFS = load_prefs("data/kanji_sieve.pref")
-    
-    orphans_list =[]
-    
+        
     def populate_grid():
         if PREFS["add_orphans"] == "1":
-            if len(orphans_list) > 0 and len(orphans_list) < 7:
-                i = len(orphans_list) 
-                while i == (len(orphans_list)) and i > 0:
+            
+            if len(orphans_list) in range (len(orphans_list), 7):
+                for i in range (1, len(orphans_list)+1 ):
                     v[("kanji" + str(i))].text = (orphans_list[len(orphans_list)-1])
                     orphans_list.pop(len(orphans_list)-1)
-                    i -= 1
+                    
             elif len(orphans_list) > 6:
-                i = 0
-                while i < 6:
-                    v[("kanji" + str(i+1))].text = (orphans_list[len(orphans_list)-1])
+                for i in range(1,7):
+                    v[("kanji" + str(i))].text = (orphans_list[len(orphans_list)-1])
                     orphans_list.pop(len(orphans_list)-1)
-                    i += 1
-
+                    
     
     def insert_data(data):
         con = sqlite3.connect("data/dict.db")
@@ -60,48 +57,40 @@ def main():
         con.commit()
         con.close()
      
-            
+     
     def save_action(sender):
         data = []
-        row1 = (v['kanji1'].text, v['kana1'].text, v['eng1'].text, v['pos1'].text, v['jpn1'].text)
-        row2 = (v['kanji2'].text, v['kana2'].text, v['eng2'].text, v['pos2'].text, v['jpn2'].text)
-        row3 = (v['kanji3'].text, v['kana3'].text, v['eng3'].text, v['pos3'].text, v['jpn3'].text)
-        row4 = (v['kanji4'].text, v['kana4'].text, v['eng4'].text, v['pos4'].text, v['jpn4'].text)
-        row5 = (v['kanji5'].text, v['kana5'].text, v['eng5'].text, v['pos5'].text, v['jpn5'].text)
-        row6 = (v['kanji6'].text, v['kana6'].text, v['eng6'].text, v['pos6'].text, v['jpn6'].text)
-        if v['kanji1'].text != "" and v['kana1'].text != "" and v['eng1'].text != "":
-            data += [row1]
-        if v['kanji2'].text != "" and v['kana2'].text != "" and v['eng2'].text != "":
-            data += [row2]
-        if v['kanji3'].text != "" and v['kana3'].text != "" and v['eng3'].text != "":
-            data += [row3]
-        if v['kanji4'].text != "" and v['kana4'].text != "" and v['eng4'].text != "":
-            data += [row4]
-        if v['kanji5'].text != "" and v['kana5'].text != "" and v['eng5'].text != "":
-            data += [row5]
-        if v['kanji6'].text != "" and v['kana6'].text != "" and v['eng6'].text != "":
-            data += [row6]
-        print(data)
-        insert_data(data)
+        row = []
+        
+        for i in range(1, 7):
+            row = (v['kanji'+ str(i)].text, v['kana'+ str(i)].text, v['eng'+ str(i)].text, v['pos'+ str(i)].text, v['jpn'+str(i)].text)
+            if v['kanji'+str(i)].text != "" and v['kana'+str(i)].text != "" and v['eng'+str(i)].text != "":
+                data.append(row)
+        
+        if data != []:
+            print("terms added:\n", data)
+            insert_data(data)
         clear_action(sender)
-        dialogs.hud_alert("saved to dictionary")
-        populate_grid()
+        dialogs.hud_alert(str(len(data))+" entries saved")
+        populate_grid() 
         v['kanji1'].begin_editing()
-    
-       
+
+   
     def clear_action(sender):
-        v['kanji1'].text, v['kana1'].text, v['eng1'].text, v['pos1'].text, v['jpn1'].text = "","","","",""
-        v['kanji2'].text, v['kana2'].text, v['eng2'].text, v['pos2'].text, v['jpn2'].text = "","","","",""
-        v['kanji3'].text, v['kana3'].text, v['eng3'].text, v['pos3'].text, v['jpn3'].text = "","","","",""
-        v['kanji4'].text, v['kana4'].text, v['eng4'].text, v['pos4'].text, v['jpn4'].text = "","","","",""
-        v['kanji5'].text, v['kana5'].text, v['eng5'].text, v['pos5'].text, v['jpn5'].text = "","","","",""
-        v['kanji6'].text, v['kana6'].text, v['eng6'].text, v['pos6'].text, v['jpn6'].text = "","","","",""
+        for i in range(1,7):
+            v['kanji'+str(i)].text = ""
+            v['kana'+str(i)].text = ""
+            v['eng'+str(i)].text = ""
+            v['pos'+str(i)].text = ""
+            v['jpn'+str(i)].text = ""
+    
         v['kanji1'].begin_editing()
         
-        
+      
     def exit_action(sender):
         v.close()
-    
+
+  
     #-------------------------------------------------- build gui
     v = ui.load_view()
     
@@ -125,6 +114,8 @@ def main():
     v.present('fullscreen', hide_close_button=True)
     
     # -------------------------------------------------------- initialise grid
+    orphans_list =[]
+    
     with open("data/orphans.ksv", encoding='utf-8', newline='\n') as csvtext:
         input = csv.reader(csvtext)
         orphans_list = [row[0] for row in input]

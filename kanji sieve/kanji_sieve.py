@@ -1,6 +1,6 @@
 # -----------------------------------------#
-#   Kanji Sieve 1.17 for Pythonista 3
-#   2023-12-12
+#   Kanji Sieve 1.17.1 for Pythonista 3
+#   2023-12-14
 #   (c)Robert Belton BSD 3-Clause License
 #
 #
@@ -45,7 +45,7 @@ from markdown2 import Markdown
 from pathlib import Path
 
 # ------------------------------------------------------------------- constants
-VERSION = "1.17"
+VERSION = "1.17.1"
 
 # decoration snippets
 _LINE_ = "\n----------------\n"
@@ -91,7 +91,7 @@ CSS = '''
                 font-size: larger;
         }
         h3 {
-                font-style: larger;
+                font-style: bold;
         }
         h4 {
                 font-weight: normal;
@@ -167,52 +167,7 @@ def add_unique_postfix(fn):
             return uni_fn
 
     return None
-
-    
-def init_dict_pref(pref):
-    if pref == "reikoku":
-        v['reikoku'].title = "✔︎"
-        v['weblio'].title = ""
-        v['wik-eng'].title = ""
-        v['wik-jpn'].title = ""
-        v['jisho'].title = ""
-        v['eijiro'].title = ""
-    elif pref == "weblio":
-        v['reikoku'].title = ""
-        v['weblio'].title = "✔︎"
-        v['wik-eng'].title = ""
-        v['wik-jpn'].title = ""
-        v['jisho'].title = ""
-        v['eijiro'].title = ""
-    elif pref == "wik-eng":
-        v['reikoku'].title = ""
-        v['weblio'].title = ""
-        v['wik-eng'].title = "✔︎"
-        v['wik-jpn'].title = ""
-        v['jisho'].title = ""
-        v['eijiro'].title = ""
-    elif pref == "wik-jpn":
-        v['reikoku'].title = ""
-        v['weblio'].title = ""
-        v['wik-eng'].title = ""
-        v['wik-jpn'].title = "✔︎"
-        v['jisho'].title = ""
-        v['eijiro'].title = ""
-    elif pref == "jisho":
-        v['reikoku'].title = ""
-        v['weblio'].title = ""
-        v['wik-eng'].title = ""
-        v['wik-jpn'].title = ""
-        v['jisho'].title = "✔︎"
-        v['eijiro'].title = ""
-    elif pref == "eijiro":
-        v['reikoku'].title = ""
-        v['weblio'].title = ""
-        v['wik-eng'].title = ""
-        v['wik-jpn'].title = ""
-        v['jisho'].title = ""
-        v['eijiro'].title = "✔︎"
-
+     
 
 def init_bool_pref(pref, value):
         if value == "1":
@@ -221,49 +176,21 @@ def init_bool_pref(pref, value):
             v[pref].title = ""
         else:
             pass
-        
+            
+            
+def init_dict_pref(pref):
+        v[pref].title = "✔︎"
+
 
 def select_dict(self):
-    if self.title == "":
-        self.title = "✔︎"
-        dict_pref = self.name
-        if self.name == "reikoku":
-            v['weblio'].title = ""
-            v['wik-eng'].title = ""
-            v['wik-jpn'].title = ""
-            v['jisho'].title = ""
-            v['eijiro'].title = ""
-        elif self.name == "weblio":
-            v['reikoku'].title = ""
-            v['wik-eng'].title = ""
-            v['wik-jpn'].title = ""
-            v['jisho'].title = ""
-            v['eijiro'].title = ""
-        elif self.name == "wik-eng":
-            v['weblio'].title = ""
-            v['reikoku'].title = ""
-            v['wik-jpn'].title = ""
-            v['jisho'].title = ""
-            v['eijiro'].title = ""
-        elif self.name == "wik-jpn":
-            v['weblio'].title = ""
-            v['reikoku'].title = ""
-            v['wik-eng'].title = ""
-            v['jisho'].title = ""
-            v['eijiro'].title = ""
-        elif self.name == "jisho":
-            v['weblio'].title = ""
-            v['reikoku'].title = ""
-            v['wik-eng'].title = ""
-            v['wik-jpn'].title = ""
-            v['eijiro'].title = ""
-        elif self.name == "eijiro":
-            v['weblio'].title = ""
-            v['reikoku'].title = ""
-            v['wik-eng'].title = ""
-            v['wik-jpn'].title = ""
-            v['jisho'].title = ""
-        PREFS.update({"dict": dict_pref})
+    v['weblio'].title = ""
+    v['wik-eng'].title = ""
+    v['wik-jpn'].title = ""
+    v['jisho'].title = ""
+    v['eijiro'].title = ""
+    v['reikoku'].title = ""
+    self.title = "✔︎"
+    PREFS.update({"dict":self.name})   
 
 
 def load_prefs(path):
@@ -310,10 +237,12 @@ def html_convert_display(md_text):
     html_text_raw = HTML_1 + CSS + HTML_2  +  html_text + HTML_3
     v['webview1'].load_html(html_text_raw)
 
-
-output_text = '''
-
-'''
+def text_transform(text):
+    out = text.replace("//,", "//=")
+    out = out.replace(",", " <---> ")
+    out = out.replace("//=", "//,")
+    return out
+    
 
 def sanitise_text(text):
     out = text.replace("<--->", ",")
@@ -326,14 +255,6 @@ def sanitise_text(text):
     out = out.replace("\n\n", "\n")
     out = out.replace("\n\n", "\n")
     out = out.replace("\n,", "\nx,")
-
-    return out
-    
-    
-def text_transform(text):
-    out = text.replace("//,", "//=")
-    out = out.replace(",", " <---> ")
-    out = out.replace("//=", "//,")
     return out
 
 
