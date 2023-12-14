@@ -1,3 +1,5 @@
+v1.17.1  2023 Dec 14  -  Tightened some code, 'kanji_sieve.py' and 'add_to_dict.py'
+----------------------------------------------------------------------------------------------------
 v1.17    2023 Dec 12  -  Added buttons for 'add to dictionary', 'edit substitutions', 'edit omits'
 						 Auto entry of orphans when editing
 						 Renamed files to have '.ksv' suffix
