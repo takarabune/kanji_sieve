@@ -1,4 +1,4 @@
-### Kanji Sieve v1.18
+## Kanji Sieve v1.18
 
 A wip script for Pythonista 3 that takes a Japanese text and outputs a markdown file giving a basic analysis of its kanji and a glossary of kanji based vocabulary with links to a dictionary resource. 
 
@@ -33,7 +33,7 @@ The output is saved to the same directory as the script. The script needs to be 
 
 Although written for Pythonista, I see no reason why the iOS-only calls to dialogs and gui couldn't be rewritten for another platform.
 
-#### add_to_dict
+### add to dictionary
 A utility script to add entries to the user table of the sqlite file ``dict.db``. It has a gui interface allowing 6 entries at a time to be made. 'Term', 'Reading', and 'Translation' are required fields. If any are empty that row will not be entered. 
 - 'Term' should be kanji, katakana, or hiragana. It is the item matched on a search.
 - 'Reading' should be hiragana only.
