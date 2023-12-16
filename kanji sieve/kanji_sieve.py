@@ -1,5 +1,5 @@
 # -----------------------------------------#
-#   Kanji Sieve 1.17.1 for Pythonista 3
+#   Kanji Sieve 1.18 for Pythonista 3
 #   2023-12-14
 #   (c)Robert Belton BSD 3-Clause License
 #
@@ -12,7 +12,6 @@
 #   Flashcard Deluxe
 #
 #   requires:
-#      kanji_sieve.pyui
 #      data/dict.db
 #
 #   will build (if not present):
@@ -23,7 +22,6 @@
 #
 #   dependencies:
 #      tinysegmenter
-#      add_to_dict
 #      
 #
 # -----------------------------------------#
@@ -40,12 +38,13 @@ import os
 import csv
 import zipfile
 import webbrowser
-import add_to_dict as a2d
+import bz2
+from base64 import b64decode
 from markdown2 import Markdown 
 from pathlib import Path
 
 # ------------------------------------------------------------------- constants
-VERSION = "1.17.1"
+VERSION = "1.18"
 
 # decoration snippets
 _LINE_ = "\n----------------\n"
@@ -107,6 +106,76 @@ CSS = '''
                 line-height: 1.5;
         }
 '''
+
+# ---------------------------------------------------base 64 encoded pyui files
+ks_gui = '''\
+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
+    '''
+ks_pyui = bz2.decompress(b64decode(ks_gui))
+
+
+a2d_gui = 	data = '''\
+QlpoOTFBWSZTWUhVyW8AFmtfgFUQUGd/9T+UHYq//976YAbfAOgT7fYOuiBURJJHMABMmA
+BMJgmEMARgA5gAJkwAJhMEwhgCMADI0KU3qgAxNAAAyaAAAAYqRoDQZAZADCAADQ0ACaqk
+NI2jKn6TIJMgAABo0AA0ClJFNMqfpCPKPQU09CGeKjygPUPSY09TKdEuoGVEndQ53xz5c9
+G2G+VX96GRLahlDqodHnxmSz0amsWY3qV0SslFiydPTx5FQHJSk9T8cJF0qmUMBclEPjtE
+cMI3qGt/X9pnqxrIenPj+vloe5VmTx2TcrxjZsVZm1anRKMVYWZKPxW61QwjhIwjqfHs9f
+XjgfBmYMymYt6Gp7BdfUq3XhPFbC7Pp/Du7e/nnMmqquJ0QZoDMIvEGQWX3fi/a17NSzoi
+IgYiLNmc+UwZdi7f02b5OwXBeqdi4i3nFVTuoff3UNKu5i3m01MVYq3ytgt8WaiW26tUMk
+3kt9qGi2ob6rVDW0TfKG9Q9EbR6Xv468+WkMUNqGqGlXfMEd01oad7I1mGYFssDUzMNsq1
+kawACFkw4MTOSAEzpknTJOmGvsU9M7JkgHKIdEIFyQA9VQSdMkkLEkAZ5JsGDMDdivbXoh
+rDzrCGxbIcFb6rDCS7peHlrZV5Jn86/CswZjQPoVZB5vYACoQQNZDJFYElp/ytHd+CWW7i
+SSVlhhJJsEUFsh1jwhtKtiqwqX2rctYcs9NNOhlDJasFsh4rbDxeEMcVyWPfFWfLPPPI8l
+nDicoq2UXFYrhwyyy5lWvg44WGGGGFhyPHMq6FWkPUtNNNNO3sXSGwvFnDM2xlllll0jeZ
+GCzh5rjy7/HrtURECZEzMy0RCENMzMXAksSgScBGkqBJxWDruOCyXfDwXJb4cCrOOEPBjV
+a3oZOc+qc1EP30O+h0zqjrDhDavJepflV+2FYLCWGE3rGHdDGGi4Q9auUO9dV4wxXatFzX
+mh2zNYw5+9DoVfVQ7ldip6yrCKcCPv7/Ch7vT7fmr2ZQ0sofwF/IWLFssX/U75r8/b0LzU
+PgR0VDaoeK/bFr8t+Qj9eJHELKr2hlf1kZOhVtzVbVDhGL3KtkHDbKGpHAq47hfNXAjjXS
+v7EdhHlCyVhZKPlQ2+X1/kq8hHNV2ka84MId45UOFK5Q3lXmMyr/ltXDmsX7baIwjblzI2
+nQVYvWR9IMlRYQ7ErsKvLfMoeyapX2dSr+p8VD2alXPjDiqtk6lWk1laBqNi2Crd2w3VU7
+8Yemle0Vbov3Roj5wuvehvuqHOhr0LFWy3+uhyI348Vw7elYq0vsodIWt6G/SoanfzLrVY
+R9Ea4A8qh88amNK1NOX90O6HnmpqrWV0mYq9G4yhqlb9s6YQ28sN3EVdZsqVicyNdRHVQ7
+NKuVQ81Dj4nRQzzKuQWkG1Q6yOqhqcJHKnaYZbw3Q36JXp7d6VnQ59hVtqmvhMvBK3Q5FX
+dwmBJwuVD2FXAq8j9KGUP/YrKyYZWWSMFYOVQ218Kh4bIeFD81e+YrFXu1Xvir/xdyRThQ
+kEhVyW8=
+    '''
+a2d_pyui = bz2.decompress(b64decode(a2d_gui))
+
 
 # kyouiku lists #
 K1 = """一 右 雨 円 王 音 下 火 花 貝 学 気 九 休 玉 金 空 月 犬 見 五 口 校 左 三 山 子 四 糸 字 耳 七 車 手 十 出
@@ -274,7 +343,7 @@ def edit_substitutes_button(sender):
 //,blank.lines.and.lines.starting '//[comma]'are.ignored.in
 //,.the.script.but.are.still.stripped.of.white.space.
 //,.this.text.can.be.deleted.
-'''
+    '''
         with open("data/sub.ksv", "w", encoding = "utf8") as newfile:
             newfile.write(default_text)
             newfile.close()
@@ -302,7 +371,7 @@ def edit_omit_button(sender):
 //one word per line.
 //a double slash at the start of a line will comment out the line. 
 //blank lines ignored.
-'''
+    '''
         with open("data/omit.ksv", "w", encoding = "utf8") as newfile:
             newfile.write(default_text)
             newfile.close()
@@ -324,9 +393,112 @@ def edit_omit_button(sender):
     
 
 def add2dict_button(sender):
-    write_prefs(PREFS, "data/kanji_sieve.pref")
-    a2d.main()
+    #write_prefs(PREFS, "data/kanji_sieve.pref")
+    add_to_dict()
+
+
+# --------------------------------------------------------------- add_to_dict
+def add_to_dict():
+        
+    def populate_grid():
+        if PREFS["add_orphans"] == "1":
+            
+            if len(orphans_list) in range (len(orphans_list), 7):
+                for i in range (1, len(orphans_list)+1 ):
+                    v2[("kanji" + str(i))].text = (orphans_list[len(orphans_list)-1])
+                    orphans_list.pop(len(orphans_list)-1)
+                    
+            elif len(orphans_list) > 6:
+                for i in range(1,7):
+                    v2[("kanji" + str(i))].text = (orphans_list[len(orphans_list)-1])
+                    orphans_list.pop(len(orphans_list)-1)
+                    
     
+    def insert_data(data):
+        con = sqlite3.connect("data/dict.db")
+        cur = con.cursor()
+        cur.executemany("INSERT INTO user VALUES(?, ?, ?, ?, ?)", data)
+        con.commit()
+        con.close()
+     
+     
+    def save_action(sender):
+        data = []
+        row = []
+        
+        for i in range(1, 7):
+            row = (v2['kanji'+ str(i)].text, v2['kana'+ str(i)].text, v2['eng'+ str(i)].text, v2['pos'+ str(i)].text, v2['jpn'+str(i)].text)
+            if v2['kanji'+str(i)].text != "" and v2['kana'+str(i)].text != "" and v2['eng'+str(i)].text != "":
+                data.append(row)
+        
+        if data != []:
+            print("terms added:\n", data)
+            #insert_data(data)
+        clear_action(sender)
+        dialogs.hud_alert(str(len(data))+" entries saved")
+        populate_grid() 
+        v2['kanji1'].begin_editing()
+
+   
+    def clear_action(sender):
+        for i in range(1,7):
+            v2['kanji'+str(i)].text = ""
+            v2['kana'+str(i)].text = ""
+            v2['eng'+str(i)].text = ""
+            v2['pos'+str(i)].text = ""
+            v2['jpn'+str(i)].text = ""
+    
+        v2['kanji1'].begin_editing()
+        
+      
+    def exit_action(sender):
+        v2.close()
+
+  
+    # build gui #
+    v2 = ui.load_view_str(a2d_pyui.decode('utf-8'))
+    
+    save_button = ui.ButtonItem()
+    save_button.title = 'Save'
+    save_button.action = save_action
+    
+    clear_button = ui.ButtonItem()
+    clear_button.title = 'Clear'
+    clear_button.tint_color = 'red'
+    clear_button.action = clear_action
+    
+    exit_button = ui.ButtonItem()
+    exit_button.title = 'Exit'
+    exit_button.tint_color = 'black'
+    exit_button.action = exit_action
+    
+    v2.right_button_items = [save_button, clear_button]
+    v2.left_button_items = [exit_button]
+    
+    v2.present('fullscreen', hide_close_button=True)
+    
+    # initialise grid #
+    orphans_list =[]
+    
+    with open("data/orphans.ksv", encoding='utf-8', newline='\n') as csvtext:
+        input = csv.reader(csvtext)
+        orphans_list = [row[0] for row in input]
+    
+    populate_grid()
+
+    v2['kanji1'].begin_editing()
+    print(" terms added:")
+    v.wait_modal()
+    
+    # on exit show user list contents #
+    con = sqlite3.connect("data/dict.db")
+    cur = con.cursor()
+    print("\n\n user dictionary entries: \n")
+    for row in cur.execute(
+        "SELECT rowid, kanji, kana, eng, pos, jp FROM user ORDER by rowid"):
+        print(row)
+    con.commit()
+    con.close()
 
 
 # --------------------------------------------------------------- kanji sieve #
@@ -789,7 +961,6 @@ _generated with [Kanji Sieve {VERSION}](https://github.com/takarabune/kanji_siev
     html_convert_display(md_text)
     v['webview1'].delegate = HTMLviewer()
     
-
     # ------------------------------------------------------------- save output
     newdir = "kanji sieve output/"
     newfile = Path(newdir)
@@ -840,18 +1011,14 @@ _generated with [Kanji Sieve {VERSION}](https://github.com/takarabune/kanji_siev
     newfile.write("\n".join(map(str, remaining_words)))
     newfile.close()
 
-
     spinner.stop()
-    v['sub_button'].enabled = True
-    v['omit_button'].enabled = True
-    v['dict_button'].enabled = True
     
     echo("saved \n")
     dialogs.hud_alert("saved")
     
 # --------------------------------------------------------------------- main #
 # ------------------------------------------------------------------ build GUI
-v = ui.load_view()
+v = ui.load_view_str(ks_pyui.decode('utf-8'))
 
 exit_button = ui.ButtonItem()
 exit_button.title = 'Exit'
@@ -865,10 +1032,6 @@ sieve_button.action = sieve_action
 
 v.left_button_items = [exit_button]
 v.right_button_items = [sieve_button]
-
-#v['sub_button'].enabled = False
-#v['omit_button'].enabled = False
-#v['dict_button'].enabled = False
 
 spinner = ui.ActivityIndicator()
 spinner.style = ui.ACTIVITY_INDICATOR_STYLE_WHITE_LARGE
@@ -891,7 +1054,6 @@ dict_pref = PREFS["dict"]
 v.present('fullscreen', hide_close_button=True)
 
 
-
 # -----------------------------------------------------------  initialise prefs
 init_dict_pref(dict_pref)
 for pref, value in PREFS.items():
@@ -900,6 +1062,7 @@ v.wait_modal()
 
 # -------------------------------------------------------  on close write prefs
 write_prefs(PREFS, "data/kanji_sieve.pref")
+print("kanji sieve closed")
 print("prefs:`" + str(PREFS) + "`")
 
 
