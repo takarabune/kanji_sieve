@@ -1,6 +1,6 @@
 # -----------------------------------------#
 #   Kanji Sieve 1.18 for Pythonista 3
-#   2023-12-14
+#   2023-12-16
 #   (c)Robert Belton BSD 3-Clause License
 #
 #
