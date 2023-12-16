@@ -19,3 +19,6 @@ removed in v1.16, but indebted to code in working out webviewer presentation.
 This is a fork of [MarkdownView by mikaelho](https://github.com/mikaelho/pythonista-markdownview)
 used with [permission](https://github.com/mikaelho/pythonista-markdownview/issues/8#event-11203089425)
 
+### EmbedPyui
+[Utility by omz](https://github.com/tdamdouni/Pythonista/blob/master/pyui/EmbedPyui.py)
+
